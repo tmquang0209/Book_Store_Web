@@ -11,18 +11,18 @@ const Menu = [
     {
         id: 2,
         name: "Best Seller",
-        link: "/#services",
+        link: "/#topSeller",
     },
 ];
 
 const DropdownLinks = [
     {
         name: "Trending books",
-        link: "/#",
+        link: "/#trendingBooks",
     },
     {
         name: "Best selling",
-        link: "/#",
+        link: "/#topSeller",
     },
     {
         name: "Authors",
@@ -38,15 +38,15 @@ const Navbar = () => {
                     <div className="flex items-center justify-between">
                         <div>
                             <a href="/" className="flex items-center justify-center gap-2 align-middle text-2xl font-bold sm:text-3xl">
-                                <img src="/logo-tlu.svg" className="w-10" />
+                                <img src="/logo-tlu.svg" className="w-10" alt="Logo" />
                                 Books
                             </a>
                         </div>
                         <div>
-                            <ul className="flex hidden items-center gap-4 sm:flex">
+                            <ul className="hidden items-center gap-4 sm:flex">
                                 {Menu.map((item, index) => (
                                     <li key={item.id}>
-                                        <a href="{item.link}" className="inline-block px-4 py-4 duration-200 hover:text-primary">
+                                        <a href={item.link} className="inline-block px-4 py-4 duration-200 hover:text-primary">
                                             {item.name}
                                         </a>
                                     </li>
