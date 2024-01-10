@@ -1,14 +1,10 @@
 import "./App.css";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import BestBooks from "./components/BestBooks";
-import Banner from "./components/Banner";
 import React from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import TopBooks from "./components/TopBooks";
-import Footer from "./components/Footer";
-import Testimonial from "./components/Testimoial";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./Screen/Home";
+import Products from "./Screen/Products";
 
 function App() {
     React.useEffect(() => {
@@ -23,15 +19,13 @@ function App() {
 
     return (
         <>
-        
             <div className="bg-white duration-200">
-                <Navbar />
-                <Hero />
-                <BestBooks />
-                <Banner />
-                <TopBooks />
-                <Testimonial />
-                <Footer />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/products" element={<Products />} />
+                    </Routes>
+                </BrowserRouter>
             </div>
         </>
     );

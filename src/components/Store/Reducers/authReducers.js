@@ -1,4 +1,4 @@
-import { LOGIN } from "../action";
+import { LOGIN, LOGOUT, UPDATE_INFO } from "../action";
 
 const initialState = {
     user: {},
@@ -15,6 +15,17 @@ export const authReducer = (state = initialState, action) => {
                 isAuth: action.payload.isAuth,
                 message: action.payload.message,
             };
+
+        case UPDATE_INFO:
+            return {
+                ...state,
+                user: action.payload,
+                isAuth: action.payload.isAuth,
+                message: action.payload.message,
+            };
+
+        case LOGOUT:
+            return { user: "", isAuth: false, message: "" };
 
         default:
             return state;
