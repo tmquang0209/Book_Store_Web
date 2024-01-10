@@ -23,6 +23,7 @@ function App() {
 
     return (
         <>
+        
             <div className="bg-white duration-200">
                 <Navbar />
                 <Hero />
