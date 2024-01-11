@@ -9,6 +9,9 @@ import "aos/dist/aos.css";
 import TopBooks from "./components/TopBooks";
 import Footer from "./components/Footer";
 import Testimonial from "./components/Testimoial";
+import ViewAll from "./components/ViewAll";
+import DetailProduct from "./components/DetailProduct";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
     React.useEffect(() => {
@@ -23,16 +26,24 @@ function App() {
 
     return (
         <>
-            <div className="bg-white duration-200">
+
+            <BrowserRouter>
                 <Navbar />
-                <Hero />
-                <BestBooks />
-                <Banner />
-                <TopBooks />
-                <Testimonial />
-                <Footer />
-            </div>
+                <Routes>
+                    <Route index element={<div className="bg-white duration-200">
+                        <Hero />
+                        <BestBooks />
+                        <Banner />
+                        <TopBooks />
+                        <Testimonial />
+                        <Footer />
+                    </div>} />
+                    <Route path="viewall" element={<ViewAll />} />
+                    <Route path="detailProduct" element={<DetailProduct />} />
+                </Routes>
+            </BrowserRouter>
         </>
+
     );
 }
 

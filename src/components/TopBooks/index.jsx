@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCartPlus, FaStar } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
-
+import { Link } from "react-router-dom";
 const TopBooks = () => {
     return (
         <>
@@ -42,7 +42,7 @@ const TopBooks = () => {
                         </div>
                     </div>
                     <div className="mt-10 flex justify-center1">
-                        <button className="rounded-full bg-gradient-to-r from-primary to-secondary px-5 py-2 text-white">View more</button>
+                        <button className="rounded-full bg-gradient-to-r from-primary to-secondary px-5 py-2 text-white"><Link to="/viewall">View All Books</Link></button>
                     </div>
                 </div>
             </div>
