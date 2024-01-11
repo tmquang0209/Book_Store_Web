@@ -1,6 +1,8 @@
 import React from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
+import { Modal } from "../Modal";
+import LoginForm from "./loginForm";
 
 const Menu = [
     {
@@ -31,6 +33,8 @@ const DropdownLinks = [
 ];
 
 const Navbar = () => {
+    const [isOpen, setIsOpen] = React.useState(false);
+
     return (
         <>
             <div className="shadow-lg">
@@ -78,11 +82,18 @@ const Navbar = () => {
                                         Order
                                     </button>
                                 </li>
+                                {/* account */}
+                                <li className="inline-block px-4 py-4 duration-200 hover:text-primary">
+                                    <button className="" onClick={() => setIsOpen(true)}>
+                                        Login
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
+            {isOpen && <Modal modal={isOpen} setModal={setIsOpen} headerTitle="Login" body={<LoginForm />} />}
         </>
     );
 };

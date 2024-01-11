@@ -61,8 +61,11 @@ const Footer = () => {
                             <div className="px-4 py-8 ">
                                 <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">Important Links</h1>
                                 <ul className={`flex flex-col gap-3`}>
-                                    {FooterLinks.map((link) => (
-                                        <li className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary">
+                                    {FooterLinks.map(({ link, index }) => (
+                                        <li
+                                            id={index}
+                                            className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary"
+                                        >
                                             <span>&#11162;</span>
                                             <span>{link.title}</span>
                                         </li>
@@ -74,8 +77,11 @@ const Footer = () => {
                             <div className="px-4 py-8 ">
                                 <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">Links</h1>
                                 <ul className="flex flex-col gap-3">
-                                    {FooterLinks.map((link) => (
-                                        <li className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary">
+                                    {FooterLinks.map(({ link, index }) => (
+                                        <li
+                                            key={index}
+                                            className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary"
+                                        >
                                             <span>&#11162;</span>
                                             <span>{link.title}</span>
                                         </li>

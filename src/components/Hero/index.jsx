@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAllBanners } from "../../API/banner";
 
 const Hero = () => {
@@ -53,6 +53,7 @@ const Hero = () => {
                                 <div className="absolute -bottom-[30px] flex justify-center gap-4 rounded-full bg-white lg:-right-1 lg:top-1/2 lg:-translate-y-1/2 lg:flex-col lg:py-2">
                                     {info.map((item, index) => (
                                         <img
+                                            key={index}
                                             onClick={() => setIndexActive(index)}
                                             data-aos="zoom-in"
                                             data-aos-once="true"
