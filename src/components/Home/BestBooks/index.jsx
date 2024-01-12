@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { FaCartPlus } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
-import { getTrendingProducts } from "../../API/product";
-import { NO_IMAGE } from "../Constants/images";
+import { getTrendingProducts } from "../../../API/product";
+import { NO_IMAGE } from "../../Constants/images";
 
 const BestBooks = () => {
     const [books, setBooks] = useState([]);

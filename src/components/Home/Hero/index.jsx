@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllBanners } from "../../API/banner";
+import { getAllBanners } from "../../../API/banner";
 
 const Hero = () => {
     const [info, setInfo] = useState([]);

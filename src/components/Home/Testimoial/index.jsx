@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { getAllReviews } from "../../API/reviews";
+import { getAllReviews } from "../../../API/reviews";
 
 const Testimonial = () => {
     const [reviews, setReviews] = useState([]);

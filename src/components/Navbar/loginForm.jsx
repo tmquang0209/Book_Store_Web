@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { login } from "../Store/Actions/authActions";
+import { Input } from "@material-tailwind/react";
 
 const LoginForm = (props) => {
     const { auth, login } = props;
@@ -39,27 +40,35 @@ const LoginForm = (props) => {
         setLoginInfo((prevLoginInfo) => ({ ...prevLoginInfo, message: auth.message }));
     }, [auth.message]);
 
+    useEffect(() => {
+        console.log(auth.message);
+        console.log(loginInfo);
+    }, [auth.message, loginInfo]);
+
     return (
         <>
             {loginInfo.message && (
-                <span className={`mb-2 flex rounded-md ${auth.isAuth ? "bg-green-300" : "bg-red-300"} p-2 text-white`}>{loginInfo?.message}</span>
+                <span className={`mb-2 flex rounded-md ${auth.isAuth ? "bg-red-300" : "bg-green-300"}p-2 text-white`}>{loginInfo?.message}</span>
             )}
-            <form>
+            <form className="s:w-[300px] sm:min-w-[400px]">
                 {fields.map((field, index) => (
-                    <div className="mb-3 flex items-center justify-center" key={index}>
-                        <label htmlFor={field.name} className="w-20">
-                            {field.placeholder}
-                        </label>
-                        <input
+                    <div className="mb-4 flex flex-col" key={index}>
+                        <Input
+                            size="lg"
+                            label={field.placeholder}
                             type={field.type}
                             id={field.name}
-                            className="ml-2 border-spacing-4 rounded-md border border-gray-300 p-1"
+                            className="w-full"
                             placeholder={field.placeholder}
                             onChange={field.onChange}
                         />
                     </div>
                 ))}
-                <div>
+                <div className="mb-2 flex items-end justify-end">
+                    <button>Forgot password?</button>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 divide-y-2">
                     <button
                         type="submit"
                         className="w-full rounded-md bg-gradient-to-r from-primary to-secondary p-2 text-white"
@@ -67,7 +76,12 @@ const LoginForm = (props) => {
                     >
                         Login
                     </button>
+
+                    <button type="submit" className="w-full" onClick={handleLogin}>
+                        Register
+                    </button>
                 </div>
+                <div></div>
             </form>
         </>
     );

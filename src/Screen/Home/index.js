@@ -1,11 +1,11 @@
 import { connect } from "react-redux";
-import Banner from "../../components/Banner";
-import BestBooks from "../../components/BestBooks";
+import Banner from "../../components/Home/Banner";
+import BestBooks from "../../components/Home/BestBooks";
 import Footer from "../../components/Footer";
-import Hero from "../../components/Hero";
+import Hero from "../../components/Home/Hero";
 import Navbar from "../../components/Navbar";
-import Testimonial from "../../components/Testimoial";
-import TopBooks from "../../components/TopBooks";
+import Testimonial from "../../components/Home/Testimoial";
+import TopBooks from "../../components/Home/TopBooks";
 
 const Home = () => {
     return (

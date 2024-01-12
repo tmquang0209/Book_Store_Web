@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaCartPlus, FaStar } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
-import { getTopBooks } from "../../API/product";
-import { NO_IMAGE } from "../Constants/images";
+import { getTopBooks } from "../../../API/product";
+import { NO_IMAGE } from "../../Constants/images";
 import { Link } from "react-router-dom";
 
 const TopBooks = () => {
@@ -58,8 +58,10 @@ const TopBooks = () => {
                         ))}
                     </div>
 
-                    <div className="mt-10 flex justify-center1">
-                        <button className="rounded-full bg-gradient-to-r from-primary to-secondary px-5 py-2 text-white"><Link to="/viewall">View All Books</Link></button>
+                    <div className="mt-10 flex justify-center">
+                        <button className="rounded-full bg-gradient-to-r from-primary to-secondary px-5 py-2 text-white">
+                            <Link to="/products">View All Books</Link>
+                        </button>
                     </div>
                 </div>
             </div>
