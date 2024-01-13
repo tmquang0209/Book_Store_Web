@@ -3,8 +3,11 @@ import { connect } from "react-redux";
 import { login } from "../Store/Actions/authActions";
 import { Input } from "@material-tailwind/react";
 
+import { Modal } from "../Modal";
+import SignupForm from "./signupForm";
+
 const LoginForm = (props) => {
-    const { auth, login } = props;
+    const { auth, login, handleToggle } = props;
 
     const fields = [
         {
@@ -27,6 +30,8 @@ const LoginForm = (props) => {
         message: "",
     });
 
+    const [isOpen, setIsOpen] = React.useState(false);
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -36,19 +41,24 @@ const LoginForm = (props) => {
         }
     };
 
-    useEffect(() => {
-        setLoginInfo((prevLoginInfo) => ({ ...prevLoginInfo, message: auth.message }));
-    }, [auth.message]);
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        handleToggle("SignupForm");
+    };
 
     useEffect(() => {
-        console.log(auth.message);
-        console.log(loginInfo);
-    }, [auth.message, loginInfo]);
+        setLoginInfo((prevLoginInfo) => ({ ...prevLoginInfo, message: auth.message }));
+        if (auth.isAuth) {
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        }
+    }, [auth.message, auth.isAuth]);
 
     return (
         <>
             {loginInfo.message && (
-                <span className={`mb-2 flex rounded-md ${auth.isAuth ? "bg-red-300" : "bg-green-300"}p-2 text-white`}>{loginInfo?.message}</span>
+                <span className={`mb-2 flex rounded-md ${auth.isAuth ? "bg-green-300" : "bg-red-300"} p-2 text-white`}>{loginInfo?.message}</span>
             )}
             <form className="s:w-[300px] sm:min-w-[400px]">
                 {fields.map((field, index) => (
@@ -77,12 +87,13 @@ const LoginForm = (props) => {
                         Login
                     </button>
 
-                    <button type="submit" className="w-full" onClick={handleLogin}>
+                    <button type="submit" className="w-full" onClick={handleSignup}>
                         Register
                     </button>
                 </div>
                 <div></div>
             </form>
+            {isOpen && <Modal modal={isOpen} setModal={setIsOpen} headerTitle="Login" body={<SignupForm handleToggle={handleToggle} />} />}
         </>
     );
 };
