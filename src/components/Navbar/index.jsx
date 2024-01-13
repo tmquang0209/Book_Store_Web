@@ -10,6 +10,7 @@ import { IoMenuOutline } from "react-icons/io5";
 // import components
 import { Modal } from "../Modal";
 import LoginForm from "./loginForm";
+import SignupForm from "./signupForm";
 
 const Menu = [
     {
@@ -43,13 +44,35 @@ const Navbar = (props) => {
     const { auth } = props;
     const [isOpen, setIsOpen] = React.useState(false);
     const [accessToken, setAccessToken] = useState(null);
+    const [title, setTitle] = useState("Login");
+
+    // toggle login and signup form
+    const handleToggle = (type) => {
+        isOpen && setIsOpen(false);
+        if (type === "SignupForm") {
+            setTitle("Signup");
+            setBody(<SignupForm handleToggle={handleToggle} />);
+        } else {
+            setTitle("Login");
+            setBody(<LoginForm handleToggle={handleToggle} />);
+        }
+        setIsOpen(true);
+    };
+
+    const [body, setBody] = useState(<LoginForm handleToggle={handleToggle} />);
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        handleToggle("LoginForm");
+    };
 
     useEffect(() => {
-        console.log(auth);
         if (auth.user?.token) {
             setAccessToken(auth.user.token);
         }
     }, [auth]);
+
+    useEffect(() => {}, [title]);
 
     return (
         <>
@@ -101,7 +124,7 @@ const Navbar = (props) => {
                                 {/* account */}
                                 {!accessToken ? (
                                     <li className="inline-block px-4 py-4 duration-200 hover:text-primary">
-                                        <button className="" onClick={() => setIsOpen(true)}>
+                                        <button className="" onClick={handleLogin}>
                                             Login
                                         </button>
                                     </li>
@@ -158,6 +181,45 @@ const Navbar = (props) => {
                                                         </li>
                                                     ))}
                                                 </li>
+                                                <li>
+                                                    <button className="flex items-center gap-3 rounded-full bg-gradient-to-r from-primary to-secondary px-4 py-1 text-white duration-300 hover:scale-105 hover:cursor-pointer">
+                                                        <LuShoppingCart />
+                                                        Order
+                                                    </button>
+                                                </li>
+                                                {/* account */}
+                                                {!accessToken ? (
+                                                    <li className="inline-block px-4 py-4 duration-200 hover:text-primary">
+                                                        <button className="" onClick={handleLogin}>
+                                                            Login
+                                                        </button>
+                                                    </li>
+                                                ) : (
+                                                    <li className="group relative cursor-pointer">
+                                                        <a href="/profile" className="gap[2px] flex h-[72px] items-center">
+                                                            {auth.user?.first_name + " " + auth.user?.last_name}
+                                                            <span>
+                                                                <FaCaretDown className="transition duration-300 group-hover:rotate-180" />
+                                                            </span>
+                                                        </a>
+                                                        {/* dropdown link section */}
+                                                        <ul>
+                                                            <li>
+                                                                <a href="/orders" className="inline-block w-full rounded-md p-2 hover:bg-primary/20">
+                                                                    Orders
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    href="/logout"
+                                                                    className="inline-block w-full rounded-md p-2 text-red-600 hover:bg-primary/20"
+                                                                >
+                                                                    Logout
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                )}
                                             </ul>
                                         </div>
                                     </li>
@@ -167,7 +229,7 @@ const Navbar = (props) => {
                     </div>
                 </div>
             </div>
-            {isOpen && <Modal modal={isOpen} setModal={setIsOpen} headerTitle="Login" body={<LoginForm />} />}
+            {isOpen && <Modal modal={isOpen} setModal={setIsOpen} headerTitle={title} body={body} />}
         </>
     );
 };
