@@ -88,23 +88,34 @@ const Products = () => {
         categoryList.current = res.data;
     };
 
-    const fetchBooks = async () => {
-        const res = await getProductList(null);
-        setBooks(res.data);
+    const fetchBooks = async (searchParams) => {
+        console.log(searchParams);
+        const res = await getProductList(searchParams);
+
+        setBooks(res.data || []);
         setLoading(false);
     };
 
-    const handleSearch = async () => {
+    const handleSearch = async (searchParams) => {
         const res = await getProductList(searchParams);
         setBooks(res.data || []);
     };
 
     useEffect(() => {
-        handleSearch();
+        handleSearch(searchParams);
     }, [searchParams]);
 
     useEffect(() => {
-        fetchBooks();
+        const url = new URL(window.location.href);
+        const keyword = url.searchParams.get("keyword");
+        const category = url.searchParams.get("category");
+        const sort = url.searchParams.get("sort");
+        const from = url.searchParams.get("from");
+        const to = url.searchParams.get("to");
+
+        setSearchParams({ keyword, category, sort, from, to });
+
+        fetchBooks({ keyword, category, sort, from, to });
         getCategoryList();
     }, []);
 
@@ -172,11 +183,13 @@ const Products = () => {
                                   <EmptyItem index={index} />
                               </div>
                           ))
-                        : books.map((item, index) => (
+                        : books &&
+                          books.map((item, index) => (
                               <div className="items-center justify-center">
                                   <ProductItem item={item} index={index} />
                               </div>
                           ))}
+                    {books.length === 0 && <div className="text-center">No product found</div>}
                 </div>
             </div>
             <Footer />

@@ -33,3 +33,14 @@ export const getProductList = async (params) => {
         return err.response.data;
     }
 };
+
+export const getProductDetail = async (productId) => {
+    try {
+        const response = await axios.get(url.getProductById(productId));
+        const responseData = response.data;
+        return responseData;
+    } catch (err) {
+        console.error(err);
+        return err.response.data;
+    }
+};

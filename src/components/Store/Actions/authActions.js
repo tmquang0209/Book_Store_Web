@@ -7,7 +7,6 @@ export const authAccessToken = () => {
         try {
             const storageToken = getAccessToken();
             const response = await authToken(storageToken);
-            console.log(response.data.token);
             if (response.success) setAccessToken(response.data.token);
 
             dispatch({
@@ -24,7 +23,6 @@ export const login = (user) => {
     return async (dispatch) => {
         try {
             const response = await loginUser(user);
-            console.log(response.data.token);
             if (response.success) setAccessToken(response.data.token);
 
             dispatch({

@@ -12,9 +12,10 @@ const url = {
 
     // product
     getProduct: `${host}/product`,
-    getProductById: `${host}/product/productById`,
+    getProductById: (id) => `${host}/product/${id}/detail`,
     getProductByCategory: `${host}/product/productByCategory`,
     getTrendingProducts: `${host}/product/trending`,
+
     getTopProducts: `${host}/product/topSeller`,
     // review
     getReview: `${host}/review/allReviews`,

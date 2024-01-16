@@ -8,8 +8,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { authAccessToken } from "./components/Store/Actions/authActions";
 
 import Home from "./Screen/Home";
-import Products from "./Screen/Products";
-import DetailProduct from "./components/DetailProduct";
+import ProductsList from "./Screen/Products/list";
+import ProductDetails from "./Screen/Products/detail";
 
 function App(props) {
     const { authAccessToken } = props;
@@ -34,8 +34,8 @@ function App(props) {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/products" element={<Products />} />
-                        <Route path="detailProduct" element={<DetailProduct />} />
+                        <Route path="/products" element={<ProductsList />} />
+                        <Route path="/product_details" element={<ProductDetails />} />
                     </Routes>
                 </BrowserRouter>
             </div>

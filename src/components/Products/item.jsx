@@ -5,7 +5,7 @@ import { NO_IMAGE } from "../Constants/images";
 const ProductItem = ({ item, index }) => {
     return (
         <>
-            <Link to="/detailProduct" className="flex">
+            <Link to={`/product_details?product_id=${item.product_id}`} className="flex">
                 <div data-aos="zoom-in" data-aos-delay={index * 100} key={item.product_id}>
                     <img
                         className="w-full transform rounded-lg transition-transform duration-300 hover:scale-105"
