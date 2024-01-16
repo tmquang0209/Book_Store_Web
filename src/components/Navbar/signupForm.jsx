@@ -102,7 +102,7 @@ const SignupForm = (props) => {
                 handleToggle("LoginForm");
             }, 2000);
         }
-    }, [message.status]);
+    }, [message.status, handleToggle]);
 
     return (
         <>
