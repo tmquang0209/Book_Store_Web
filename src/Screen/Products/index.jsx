@@ -122,7 +122,7 @@ const Products = () => {
                 </div>
                 <h1 className="text-2xl font-bold">All products</h1>
                 <div className="mb-5 flex flex-wrap justify-between gap-2">
-                    <div className="flex flex-row flex-wrap justify-between gap-2">
+                    <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         <select
                             className="h-10 w-full rounded-md border border-solid border-brown-100 p-1"
                             onChange={(e) => setSearchParams({ ...searchParams, category: e.target.value })}
@@ -148,24 +148,23 @@ const Products = () => {
                                 onChange={field.onChange}
                             />
                         ))}
+                        <select
+                            className="h-10 w-full rounded-md border border-solid border-brown-100 p-1"
+                            onChange={(e) => setSearchParams({ ...searchParams, sort: e.target.value })}
+                        >
+                            {sort.map((item, index) => (
+                                <option key={index} value={item.name}>
+                                    {item.value}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-
-                    <select
-                        className="rounded-md border border-solid border-brown-100 p-1"
-                        onChange={(e) => setSearchParams({ ...searchParams, sort: e.target.value })}
-                    >
-                        {sort.map((item, index) => (
-                            <option key={index} value={item.name}>
-                                {item.value}
-                            </option>
-                        ))}
-                    </select>
                 </div>
                 <div
                     id="item"
                     className={`grid ${
                         loading ? "animate-pulse" : null
-                    } mb-3 grid grid-cols-1 place-items-center gap-10 sm:grid-cols-2 md:grid-cols-3 md:gap-5`}
+                    } mb-3 grid grid-cols-1 place-items-center gap-10 sm:grid-cols-2 md:grid-cols-4 md:gap-5`}
                 >
                     {loading
                         ? emptyArr.map((item, index) => (
