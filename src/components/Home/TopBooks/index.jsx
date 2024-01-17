@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { addToCart } from "../../Store/Actions/cartAction";
+
 import { FaCartPlus, FaStar } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
+
 import { getTopBooks } from "../../../API/product";
 import { NO_IMAGE } from "../../Constants/images";
-import { Link } from "react-router-dom";
 
-const TopBooks = () => {
+const TopBooks = (props) => {
+    const { addToCart } = props;
     const [books, setBooks] = useState([]);
 
     const getBooks = async () => {
         const response = await getTopBooks();
         const responseData = response.data;
         setBooks(responseData);
+    };
+
+    const onAddToCart = (product) => {
+        console.log(product);
+        addToCart({ product_id: product.product_id, quantity: 1 });
     };
 
     useEffect(() => {
@@ -32,25 +43,31 @@ const TopBooks = () => {
                     <div className="grid grid-cols-1 place-items-center gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                         {/* item card */}
                         {books.map((book) => (
-                            <div data-aos="slide-up" className="group">
+                            <div key={book.product_id} data-aos="slide-up" className="group">
                                 <div className="relative max-h-[220px]">
                                     <img src={book.thumbnail || NO_IMAGE} alt="" className="h-[220px] w-[150px] rounded-md object-cover shadow-md" />
                                     <div className="absolute bottom-0 left-0 right-0 hidden grid-cols-2 group-hover:grid">
-                                        <div className="flex w-full justify-center rounded-bl-md bg-primary py-3 hover:cursor-pointer">
+                                        <a
+                                            href={`/product_details?product_id=${book.product_id}`}
+                                            className="flex w-full justify-center rounded-bl-md bg-primary py-3 hover:cursor-pointer"
+                                        >
                                             <FiEye className="text-white" />
-                                        </div>
-                                        <div className="flex w-full justify-center rounded-br-md bg-red-400 py-3 hover:cursor-pointer">
+                                        </a>
+                                        <button
+                                            onClick={() => onAddToCart(book)}
+                                            className="flex w-full justify-center rounded-br-md bg-red-400 py-3 hover:cursor-pointer"
+                                        >
                                             <FaCartPlus className="text-white" />
-                                        </div>
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="relative">
+                                <div className="relative py-2">
                                     <h1 className="font-semibold">{book.name}</h1>
                                     <p className="text-sm text-gray-700">{book.author || "anonymous"}</p>
                                     <div className="flex items-center gap-1">
                                         {Array.from({ length: book.rating }).map((_, index) => (
                                             <FaStar key={index} className="text-yellow-500" />
-                                        ))}{" "}
+                                        ))}
                                         {book.rating > 0 && book.rating}
                                     </div>
                                 </div>
@@ -69,4 +86,8 @@ const TopBooks = () => {
     );
 };
 
-export default TopBooks;
+const mapStateToProp = (state) => ({
+    cart: state.cart,
+});
+
+export default connect(mapStateToProp, { addToCart })(TopBooks);

@@ -3,9 +3,6 @@ import { connect } from "react-redux";
 import { login } from "../Store/Actions/authActions";
 import { Input } from "@material-tailwind/react";
 
-import { Modal } from "../Modal";
-import SignupForm from "./signupForm";
-
 const LoginForm = (props) => {
     const { auth, login, handleToggle } = props;
 
@@ -29,8 +26,6 @@ const LoginForm = (props) => {
         password: "",
         message: "",
     });
-
-    const [isOpen, setIsOpen] = React.useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -93,7 +88,6 @@ const LoginForm = (props) => {
                 </div>
                 <div></div>
             </form>
-            {isOpen && <Modal modal={isOpen} setModal={setIsOpen} headerTitle="Login" body={<SignupForm handleToggle={handleToggle} />} />}
         </>
     );
 };

@@ -9,6 +9,7 @@ import { IoMenuOutline } from "react-icons/io5";
 
 // import components
 import { Modal } from "../Modal";
+import DrawerCart from "../Drawer/cart";
 import LoginForm from "./loginForm";
 import SignupForm from "./signupForm";
 
@@ -42,13 +43,16 @@ const DropdownLinks = [
 
 const Navbar = (props) => {
     const { auth } = props;
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpenModal, setIsOpenModal] = React.useState(false);
+    const [isOpenDrawer, setIsOpenDrawer] = React.useState(false);
     const [accessToken, setAccessToken] = useState(null);
     const [title, setTitle] = useState("Login");
 
+    const closeDrawer = () => setIsOpenDrawer(false);
+
     // toggle login and signup form
     const handleToggle = (type) => {
-        isOpen && setIsOpen(false);
+        isOpenModal && setIsOpenModal(false);
         if (type === "SignupForm") {
             setTitle("Signup");
             setBody(<SignupForm handleToggle={handleToggle} />);
@@ -56,8 +60,10 @@ const Navbar = (props) => {
             setTitle("Login");
             setBody(<LoginForm handleToggle={handleToggle} />);
         }
-        setIsOpen(true);
+        setIsOpenModal(true);
     };
+
+    const handleOrderPress = () => setIsOpenDrawer(true);
 
     const [body, setBody] = useState(<LoginForm handleToggle={handleToggle} />);
 
@@ -116,7 +122,10 @@ const Navbar = (props) => {
                                     </div>
                                 </li>
                                 <li>
-                                    <button className="flex items-center gap-3 rounded-full bg-gradient-to-r from-primary to-secondary px-4 py-1 text-white duration-300 hover:scale-105 hover:cursor-pointer">
+                                    <button
+                                        onClick={handleOrderPress}
+                                        className="flex items-center gap-3 rounded-full bg-gradient-to-r from-primary to-secondary px-4 py-1 text-white duration-300 hover:scale-105 hover:cursor-pointer"
+                                    >
                                         <LuShoppingCart />
                                         Order
                                     </button>
@@ -173,16 +182,21 @@ const Navbar = (props) => {
                                                     <a href="/#" className="gap[2px] flex h-[72px] items-center">
                                                         Quick links
                                                     </a>
-                                                    {DropdownLinks.map((item, index) => (
-                                                        <li key={index}>
-                                                            <a href={item.link} className="inline-block w-full rounded-md p-2 hover:text-primary">
-                                                                {item.name}
-                                                            </a>
-                                                        </li>
-                                                    ))}
+                                                    <ul>
+                                                        {DropdownLinks.map((item) => (
+                                                            <li key={item.name}>
+                                                                <a href={item.link} className="inline-block w-full rounded-md p-2 hover:text-primary">
+                                                                    {item.name}
+                                                                </a>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
                                                 </li>
                                                 <li>
-                                                    <button className="flex items-center gap-3 rounded-full bg-gradient-to-r from-primary to-secondary px-4 py-1 text-white duration-300 hover:scale-105 hover:cursor-pointer">
+                                                    <button
+                                                        onClick={handleOrderPress}
+                                                        className="flex items-center gap-3 rounded-full bg-gradient-to-r from-primary to-secondary px-4 py-1 text-white duration-300 hover:scale-105 hover:cursor-pointer"
+                                                    >
                                                         <LuShoppingCart />
                                                         Order
                                                     </button>
@@ -229,7 +243,8 @@ const Navbar = (props) => {
                     </div>
                 </div>
             </div>
-            {isOpen && <Modal modal={isOpen} setModal={setIsOpen} headerTitle={title} body={body} />}
+            {isOpenModal && <Modal modal={isOpenModal} setModal={setIsOpenModal} headerTitle={title} body={body} />}
+            {isOpenDrawer && <DrawerCart open={isOpenDrawer} closeDrawer={closeDrawer} />}
         </>
     );
 };

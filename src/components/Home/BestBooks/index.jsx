@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+
+import { addToCart } from "../../Store/Actions/cartAction";
+
 import { FaStar } from "react-icons/fa6";
 import { FaCartPlus } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
+
 import { getTrendingProducts } from "../../../API/product";
 import { NO_IMAGE } from "../../Constants/images";
 
-const BestBooks = () => {
+const BestBooks = (props) => {
+    const { addToCart } = props;
     const [books, setBooks] = useState([]);
 
     const getBooks = async () => {
         const response = await getTrendingProducts();
         const responseData = response.data;
         setBooks(responseData.filter((book, index) => index < 3));
+    };
+
+    const onAddToCart = (product) => {
+        addToCart({ product_id: product.product_id, quantity: 1 });
     };
 
     useEffect(() => {
@@ -54,10 +64,16 @@ const BestBooks = () => {
                                     <h1 className="text-xl font-bold">{service.name}</h1>
                                     <p className="duration-high line-clamp-2 text-sm text-gray-500">{service.description}</p>
                                     <div className="mt-4 grid grid-cols-2 items-center justify-center">
-                                        <button className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white">
+                                        <a
+                                            href={`/product_details?product_id=${service.product_id}`}
+                                            className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
+                                        >
                                             <FiEye />
-                                        </button>
-                                        <button className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white">
+                                        </a>
+                                        <button
+                                            onClick={() => onAddToCart(service)}
+                                            className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
+                                        >
                                             <FaCartPlus />
                                         </button>
                                     </div>
@@ -71,4 +87,8 @@ const BestBooks = () => {
     );
 };
 
-export default BestBooks;
+const mapStateToProp = (state) => ({
+    cart: state.cart,
+});
+
+export default connect(mapStateToProp, { addToCart })(BestBooks);

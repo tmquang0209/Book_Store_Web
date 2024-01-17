@@ -8,6 +8,15 @@
     .duration-high {
         @apply transition-all duration-300 ease-in-out;
     }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
 }
 
 @keyframes spin {

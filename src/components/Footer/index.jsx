@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaLocationArrow, FaMobileAlt } from "react-icons/fa";
 
 const FooterLinks = [
@@ -19,6 +19,7 @@ const FooterLinks = [
         link: "/#blog",
     },
 ];
+
 const Footer = () => {
     return (
         <div className="bg-gray-100">
@@ -44,13 +45,13 @@ const Footer = () => {
                         </div>
                         {/* Social Handle */}
                         <div className="mt-6 flex items-center gap-3">
-                            <a href="#">
+                            <a href="/">
                                 <FaInstagram className="text-3xl" />
                             </a>
-                            <a href="#">
+                            <a href="/">
                                 <FaFacebook className="text-3xl" />
                             </a>
-                            <a href="#">
+                            <a href="/">
                                 <FaLinkedin className="text-3xl" />
                             </a>
                         </div>
@@ -59,11 +60,14 @@ const Footer = () => {
                     <div className="col-span-2 grid grid-cols-2 sm:grid-cols-3 md:pl-10 ">
                         <div className="">
                             <div className="px-4 py-8 ">
-                                <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">Important Links</h1>
+                                <h1 key="important_link" className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">
+                                    Important Links
+                                </h1>
                                 <ul className={`flex flex-col gap-3`}>
-                                    {FooterLinks.map(({ link, index }) => (
+                                    {FooterLinks.map((link) => (
                                         <li
-                                            id={index}
+                                            key={link.title}
+                                            id={link.title}
                                             className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary"
                                         >
                                             <span>&#11162;</span>
@@ -77,9 +81,9 @@ const Footer = () => {
                             <div className="px-4 py-8 ">
                                 <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">Links</h1>
                                 <ul className="flex flex-col gap-3">
-                                    {FooterLinks.map(({ link, index }) => (
+                                    {FooterLinks.map((link) => (
                                         <li
-                                            key={index}
+                                            key={link.title}
                                             className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary"
                                         >
                                             <span>&#11162;</span>
@@ -95,7 +99,10 @@ const Footer = () => {
                                 {/* <ul className="list-disc list-inside"> */}
                                 <ul className="flex flex-col gap-3">
                                     {FooterLinks.map((link) => (
-                                        <li className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary">
+                                        <li
+                                            key={link.title}
+                                            className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary"
+                                        >
                                             <span>&#11162;</span>
                                             <span>{link.title}</span>
                                         </li>
@@ -106,9 +113,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div>
-                    <div className="border-t-2 border-gray-300/50 py-10 text-center">
-                        @copyright 2024 All rights reserved || Made with ❤️ by Dilshad
-                    </div>
+                    <div className="border-t-2 border-gray-300/50 py-10 text-center">@copyright 2024 All rights reserved || Made with ❤️ by TmQ</div>
                 </div>
             </section>
         </div>

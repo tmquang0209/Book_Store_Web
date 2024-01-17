@@ -89,7 +89,6 @@ const Products = () => {
     };
 
     const fetchBooks = async (searchParams) => {
-        console.log(searchParams);
         const res = await getProductList(searchParams);
 
         setBooks(res.data || []);
@@ -148,7 +147,7 @@ const Products = () => {
                         {inputSearch.map((field, index) => (
                             <Input
                                 key={index}
-                                size="regular"
+                                size="lg"
                                 label={field.placeholder}
                                 type={field.type}
                                 {...(field.type === "number" ? { min: 0 } : {})}

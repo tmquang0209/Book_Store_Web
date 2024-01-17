@@ -1,5 +1,5 @@
 import { authToken, loginUser } from "../../../API/user";
-import { getAccessToken, setAccessToken } from "../../LocalStorage";
+import { getAccessToken, removeAccessToken, setAccessToken } from "../../LocalStorage";
 import { LOGIN } from "../action";
 
 export const authAccessToken = () => {
@@ -8,6 +8,7 @@ export const authAccessToken = () => {
             const storageToken = getAccessToken();
             const response = await authToken(storageToken);
             if (response.success) setAccessToken(response.data.token);
+            else removeAccessToken();
 
             dispatch({
                 type: LOGIN,
