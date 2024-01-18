@@ -8,7 +8,7 @@ export const getTrendingProducts = async () => {
         return responseData;
     } catch (err) {
         console.error(err);
-        return err.response.data;
+        return err.response.data || [];
     }
 };
 
@@ -19,7 +19,7 @@ export const getTopBooks = async () => {
         return responseData;
     } catch (err) {
         console.error(err);
-        return err.response.data;
+        return err.response.data || [];
     }
 };
 
@@ -30,7 +30,7 @@ export const getProductList = async (params) => {
         return responseData;
     } catch (err) {
         console.error(err);
-        return err.response.data;
+        return err.response.data || [];
     }
 };
 
@@ -41,6 +41,6 @@ export const getProductDetail = async (productId) => {
         return responseData;
     } catch (err) {
         console.error(err);
-        return err.response.data;
+        return err.response.data || [];
     }
 };

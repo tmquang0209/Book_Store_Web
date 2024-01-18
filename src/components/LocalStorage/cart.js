@@ -32,3 +32,10 @@ export const getCart = () => {
 export const removeCart = () => {
     localStorage.removeItem("cart");
 };
+
+export const removeProductFromCart = (product) => {
+    const cart = getCart();
+    const index = cart.findIndex((item) => item.product_id === product.product_id);
+    cart.splice(index, 1);
+    setCart(cart);
+};

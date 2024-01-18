@@ -1,4 +1,4 @@
-import { addProductToCart, getCart, setCart, updateQuantity } from "../../LocalStorage";
+import { addProductToCart, getCart, removeProductFromCart, setCart, updateQuantity } from "../../LocalStorage";
 import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART, UPDATE_CART, GET_CART } from "../action";
 
 export const getCartFromLocalStorage = () => {
@@ -25,6 +25,7 @@ export const addToCart = (product) => {
 
 export const removeFromCart = (product) => {
     return (dispatch) => {
+        removeProductFromCart(product);
         dispatch({
             type: REMOVE_FROM_CART,
             payload: product,

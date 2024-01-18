@@ -72,6 +72,13 @@ const Navbar = (props) => {
         handleToggle("LoginForm");
     };
 
+    const onLoginDrawer = () => {
+        setIsOpenDrawer(false);
+        setIsOpenModal(true);
+        setTitle("Login");
+        setBody(<LoginForm handleToggle={handleToggle} />);
+    };
+
     useEffect(() => {
         if (auth.user?.token) {
             setAccessToken(auth.user.token);
@@ -244,7 +251,7 @@ const Navbar = (props) => {
                 </div>
             </div>
             {isOpenModal && <Modal modal={isOpenModal} setModal={setIsOpenModal} headerTitle={title} body={body} />}
-            {isOpenDrawer && <DrawerCart open={isOpenDrawer} closeDrawer={closeDrawer} />}
+            {isOpenDrawer && <DrawerCart open={isOpenDrawer} closeDrawer={closeDrawer} onLogin={onLoginDrawer} />}
         </>
     );
 };
