@@ -19,6 +19,9 @@ const url = {
     getTopProducts: `${host}/product/topSeller`,
     // review
     getReview: `${host}/review/allReviews`,
+
+    // order
+    createOrder: `${host}/order/create`,
 };
 
 export default url;

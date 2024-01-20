@@ -21,7 +21,6 @@ const DrawerCart = (props) => {
     //get product info from cart
     const getProducts = async () => {
         const tempProducts = [];
-        console.log(cart);
         if (cart.cart.length !== 0) {
             for (const item of cart.cart) {
                 const response = await getProductDetail(item.product_id);
@@ -73,7 +72,6 @@ const DrawerCart = (props) => {
 
     React.useEffect(() => {
         getProducts();
-        console.log(cart);
     }, [cart]);
 
     // React.useEffect(() => {}, [products]);
