@@ -156,7 +156,7 @@ const Navbar = (props) => {
                                         <div className="absolute -left-1 z-[10] hidden w-[120px] bg-white p-2 text-black shadow-md group-hover:block">
                                             <ul>
                                                 <li>
-                                                    <a href="/orders" className="inline-block w-full rounded-md p-2 hover:bg-primary/20">
+                                                    <a href="/orders_history" className="inline-block w-full rounded-md p-2 hover:bg-primary/20">
                                                         Orders
                                                     </a>
                                                 </li>
@@ -226,7 +226,10 @@ const Navbar = (props) => {
                                                         {/* dropdown link section */}
                                                         <ul>
                                                             <li>
-                                                                <a href="/orders" className="inline-block w-full rounded-md p-2 hover:bg-primary/20">
+                                                                <a
+                                                                    href="/orders_history"
+                                                                    className="inline-block w-full rounded-md p-2 hover:bg-primary/20"
+                                                                >
                                                                     Orders
                                                                 </a>
                                                             </li>

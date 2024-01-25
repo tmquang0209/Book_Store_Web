@@ -23,6 +23,7 @@ const url = {
 
     // order
     createOrder: `${host}/order/create`,
+    getOrders: (userId) => `${host}/order/user/${userId}`,
 };
 
 export default url;

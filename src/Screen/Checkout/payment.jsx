@@ -166,7 +166,7 @@ const Payment = (props) => {
             message.classList.add("bg-green-500");
             message.innerText = "Payment success";
             clearCart();
-            window.location.href = "/order-history";
+            window.location.href = "/orders_history";
         } else {
             message.classList.remove("hidden");
             message.classList.add("opacity-100");
@@ -181,27 +181,30 @@ const Payment = (props) => {
         getCartFromLocalStorage();
         getProducts();
         getProvincesList();
-        // setTimeout(() => {
-        //     if (cart.cart.length === 0) {
-        //         window.location.href = "/";
-        //         return;
-        //     }
-        // }, 1000);
     }, []);
 
     useEffect(() => {
         getProducts();
     }, [cart]);
 
+    useEffect(() => {}, [auth]);
+
     useEffect(() => {
-        if (auth.user) {
-            setPersonalInfo({
-                ...personalInfo,
-                first_name: auth.user.first_name,
-                last_name: auth.user.last_name,
-                phone_number: auth.user.telephone,
-            });
-        }
+        const timer = setTimeout(() => {
+            if (auth.user) {
+                setPersonalInfo({
+                    ...personalInfo,
+                    first_name: auth.user.first_name,
+                    last_name: auth.user.last_name,
+                    phone_number: auth.user.telephone,
+                });
+            } else {
+                window.location.href = "/";
+            }
+        }, 500);
+
+        // Cleanup function to clear the timeout if the component unmounts
+        return () => clearTimeout(timer);
     }, [auth]);
 
     return (

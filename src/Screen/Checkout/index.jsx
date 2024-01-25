@@ -65,6 +65,17 @@ const Checkout = (props) => {
         getProducts();
     }, [cart]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (!auth.isAuth) {
+                window.location.href = "/";
+            }
+        }, 500);
+
+        // Cleanup function to clear the timeout if the component unmounts
+        return () => clearTimeout(timer);
+    }, [auth.isAuth, auth.user]);
+
     return (
         <>
             <Navbar />

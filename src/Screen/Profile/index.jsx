@@ -9,6 +9,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { updateUserInfo } from "../../API/user";
+import ProfileMenu from "../../components/Navbar/profileMenu";
 
 const inputList = [
     { name: "email", type: "email", placeholder: "Email", disabled: true },
@@ -42,12 +43,12 @@ const Profile = (props) => {
             // Get form data directly from the event object
             const formData = new FormData(e.target.form);
             const updatedUserInfo = {
-                email: formData.get('email'),
-                first_name: formData.get('firstName'),
-                last_name: formData.get('lastName'),
-                telephone: formData.get('phoneNumber'),
-                birthday: formData.get('birthDay'),
-                gender: formData.get('gender'),
+                email: formData.get("email"),
+                first_name: formData.get("firstName"),
+                last_name: formData.get("lastName"),
+                telephone: formData.get("phoneNumber"),
+                birthday: formData.get("birthDay"),
+                gender: formData.get("gender"),
                 user_id: auth.user.user_id,
             };
 
@@ -97,15 +98,8 @@ const Profile = (props) => {
                 <div className="flex flex-col sm:flex-row">
                     <div className="w-[300px] px-10 sm:border-r">
                         <h1 className="text-2xl font-bold">Profile</h1>
-                        <h2>Full name</h2>
-                        <ul className="flex flex-col gap-4 py-10">
-                            <li className="flex items-center gap-2">
-                                <FaRegUser /> My account
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <FiShoppingCart /> Orders
-                            </li>
-                        </ul>
+                        <h2>{auth.user.first_name}</h2>
+                        <ProfileMenu />
                     </div>
                     <div id="detail" className="ml-5 flex w-auto flex-col pr-10">
                         <h1 className="text-2xl font-bold">My profile</h1>
