@@ -20,8 +20,6 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: action.payload,
-                isAuth: action.payload.isAuth,
-                message: action.payload.message,
             };
 
         case LOGOUT:

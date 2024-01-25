@@ -12,6 +12,8 @@ import ProductsList from "./Screen/Products/list";
 import ProductDetails from "./Screen/Products/detail";
 import Checkout from "./Screen/Checkout";
 import Payment from "./Screen/Checkout/payment";
+import OrdersHistory from "./Screen/OrdersHistory";
+import Profile from "./Screen/Profile";
 
 function App(props) {
     const { authAccessToken } = props;
@@ -40,6 +42,8 @@ function App(props) {
                         <Route path="/product_details" element={<ProductDetails />} />
                         <Route path="/checkout" element={<Checkout />} />
                         <Route path="/payment" element={<Payment />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/orders_history" element={<OrdersHistory />} />
                     </Routes>
                 </BrowserRouter>
             </div>

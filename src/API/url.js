@@ -5,6 +5,7 @@ const url = {
     authToken: `${host}/user/getUserByToken`,
     login: `${host}/user/login`,
     signup: `${host}/user/register`,
+    updateUserInfo: `${host}/user/updateUserById`,
     // banner
     getBanner: `${host}/banner`,
     // category
