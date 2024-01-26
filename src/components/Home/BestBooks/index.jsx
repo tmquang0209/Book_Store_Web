@@ -17,7 +17,8 @@ const BestBooks = (props) => {
     const getBooks = async () => {
         const response = await getTrendingProducts();
         const responseData = response.data;
-        setBooks(responseData.filter((book, index) => index < 3));
+
+        responseData && setBooks(responseData.filter((book, index) => index < 3));
     };
 
     const onAddToCart = (product) => {
@@ -42,44 +43,45 @@ const BestBooks = (props) => {
                         </p>
                     </div>
                     <div className="grid grid-cols-1 place-items-center gap-20 sm:grid-cols-2 md:grid-cols-3 md:gap-5">
-                        {books.map((service) => (
-                            <div
-                                key={service.product_id}
-                                data-aos="zoom-in"
-                                className="duration-high group relative w-full max-w-[300px] rounded-2xl bg-white shadow-xl"
-                            >
-                                <div className="h-[100px]">
-                                    <img
-                                        src={service.thumbnail || NO_IMAGE}
-                                        alt=""
-                                        className="mx-auto block max-w-[100px] -translate-y-14 transform shadow-md  duration-300 group-hover:scale-105"
-                                    />
-                                </div>
-                                <div className="p-4 text-center">
-                                    <div className="flex w-full items-center justify-center gap-1">
-                                        {Array.from({ length: service.rating }).map((_, index) => (
-                                            <FaStar key={index} className="text-yellow-500" />
-                                        ))}
+                        {books &&
+                            books.map((service) => (
+                                <div
+                                    key={service.product_id}
+                                    data-aos="zoom-in"
+                                    className="duration-high group relative w-full max-w-[300px] rounded-2xl bg-white shadow-xl"
+                                >
+                                    <div className="h-[100px]">
+                                        <img
+                                            src={service.thumbnail || NO_IMAGE}
+                                            alt=""
+                                            className="mx-auto block max-w-[100px] -translate-y-14 transform shadow-md  duration-300 group-hover:scale-105"
+                                        />
                                     </div>
-                                    <h1 className="text-xl font-bold">{service.name}</h1>
-                                    <p className="duration-high line-clamp-2 text-sm text-gray-500">{service.description}</p>
-                                    <div className="mt-4 grid grid-cols-2 items-center justify-center">
-                                        <a
-                                            href={`/product_details?product_id=${service.product_id}`}
-                                            className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
-                                        >
-                                            <FiEye />
-                                        </a>
-                                        <button
-                                            onClick={() => onAddToCart(service)}
-                                            className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
-                                        >
-                                            <FaCartPlus />
-                                        </button>
+                                    <div className="p-4 text-center">
+                                        <div className="flex w-full items-center justify-center gap-1">
+                                            {Array.from({ length: service.rating }).map((_, index) => (
+                                                <FaStar key={index} className="text-yellow-500" />
+                                            ))}
+                                        </div>
+                                        <h1 className="text-xl font-bold">{service.name}</h1>
+                                        <p className="duration-high line-clamp-2 text-sm text-gray-500">{service.description}</p>
+                                        <div className="mt-4 grid grid-cols-2 items-center justify-center">
+                                            <a
+                                                href={`/product_details?product_id=${service.product_id}`}
+                                                className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
+                                            >
+                                                <FiEye />
+                                            </a>
+                                            <button
+                                                onClick={() => onAddToCart(service)}
+                                                className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
+                                            >
+                                                <FaCartPlus />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 </div>
             </div>

@@ -42,37 +42,42 @@ const TopBooks = (props) => {
                     {/* body */}
                     <div className="grid grid-cols-1 place-items-center gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                         {/* item card */}
-                        {books.map((book) => (
-                            <div key={book.product_id} data-aos="slide-up" className="group">
-                                <div className="relative max-h-[220px]">
-                                    <img src={book.thumbnail || NO_IMAGE} alt="" className="h-[220px] w-[150px] rounded-md object-cover shadow-md" />
-                                    <div className="absolute bottom-0 left-0 right-0 hidden grid-cols-2 group-hover:grid">
-                                        <a
-                                            href={`/product_details?product_id=${book.product_id}`}
-                                            className="flex w-full justify-center rounded-bl-md bg-primary py-3 hover:cursor-pointer"
-                                        >
-                                            <FiEye className="text-white" />
-                                        </a>
-                                        <button
-                                            onClick={() => onAddToCart(book)}
-                                            className="flex w-full justify-center rounded-br-md bg-red-400 py-3 hover:cursor-pointer"
-                                        >
-                                            <FaCartPlus className="text-white" />
-                                        </button>
+                        {books &&
+                            books.map((book) => (
+                                <div key={book.product_id} data-aos="slide-up" className="group">
+                                    <div className="relative max-h-[220px]">
+                                        <img
+                                            src={book.thumbnail || NO_IMAGE}
+                                            alt=""
+                                            className="h-[220px] w-[150px] rounded-md object-cover shadow-md"
+                                        />
+                                        <div className="absolute bottom-0 left-0 right-0 hidden grid-cols-2 group-hover:grid">
+                                            <a
+                                                href={`/product_details?product_id=${book.product_id}`}
+                                                className="flex w-full justify-center rounded-bl-md bg-primary py-3 hover:cursor-pointer"
+                                            >
+                                                <FiEye className="text-white" />
+                                            </a>
+                                            <button
+                                                onClick={() => onAddToCart(book)}
+                                                className="flex w-full justify-center rounded-br-md bg-red-400 py-3 hover:cursor-pointer"
+                                            >
+                                                <FaCartPlus className="text-white" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="relative py-2">
+                                        <h1 className="font-semibold">{book.name}</h1>
+                                        <p className="text-sm text-gray-700">{book.author || "anonymous"}</p>
+                                        <div className="flex items-center gap-1">
+                                            {Array.from({ length: book.rating }).map((_, index) => (
+                                                <FaStar key={index} className="text-yellow-500" />
+                                            ))}
+                                            {book.rating > 0 && book.rating}
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="relative py-2">
-                                    <h1 className="font-semibold">{book.name}</h1>
-                                    <p className="text-sm text-gray-700">{book.author || "anonymous"}</p>
-                                    <div className="flex items-center gap-1">
-                                        {Array.from({ length: book.rating }).map((_, index) => (
-                                            <FaStar key={index} className="text-yellow-500" />
-                                        ))}
-                                        {book.rating > 0 && book.rating}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
 
                     <div className="mt-10 flex justify-center">
