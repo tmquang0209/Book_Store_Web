@@ -24,6 +24,7 @@ const url = {
     // order
     createOrder: `${host}/order/create`,
     getOrders: (userId) => `${host}/order/user/${userId}`,
+    getOrderDetails: (orderId) => `${host}/order/${orderId}/detail`,
 };
 
 export default url;

@@ -13,6 +13,7 @@ import ProductDetails from "./Screen/Products/detail";
 import Checkout from "./Screen/Checkout";
 import Payment from "./Screen/Checkout/payment";
 import OrdersHistory from "./Screen/OrdersHistory";
+import OrderDetails from "./Screen/OrdersHistory/details";
 import Profile from "./Screen/Profile";
 
 function App(props) {
@@ -44,6 +45,7 @@ function App(props) {
                         <Route path="/payment" element={<Payment />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/orders_history" element={<OrdersHistory />} />
+                        <Route path="/orders_history/:id" element={<OrderDetails />} />
                     </Routes>
                 </BrowserRouter>
             </div>

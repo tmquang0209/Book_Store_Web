@@ -20,3 +20,13 @@ export const getOrders = async (userId) => {
         console.error(err);
     }
 };
+
+export const getOrderDetails = async (orderId) => {
+    try {
+        const token = getAccessToken();
+        const response = await axios.get(url.getOrderDetails(orderId), { headers: { Authorization: token } });
+        return response.data;
+    } catch (err) {
+        console.error(err);
+    }
+};

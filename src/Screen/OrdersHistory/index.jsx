@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import Navbar from "../../components/Navbar";
@@ -8,6 +8,7 @@ import { Typography } from "@material-tailwind/react";
 import { currencyFormat } from "../../components/Common/formatNumber";
 import { getOrders } from "../../API/order";
 import { fullDate } from "../../components/Common/date";
+import { orderStatus } from "../../components/Constants/text";
 
 const head = ["No", "Date", "Status", "Total", ""];
 
@@ -15,19 +16,19 @@ const StatusLabel = ({ status }) => {
     let bgColor = "";
     let textColor = "text-white";
     switch (status) {
-        case "pending":
+        case orderStatus.PENDING:
             bgColor = "bg-yellow-400";
             textColor = "text-[#856404]";
             break;
-        case "processing":
+        case orderStatus.CONFIRMED:
             bgColor = "bg-blue-400";
             textColor = "text-[#0c5460]";
             break;
-        case "completed":
+        case orderStatus.DELIVERED:
             bgColor = "bg-green-400";
             textColor = "text-[#155724]";
             break;
-        case "cancelled":
+        case orderStatus.CANCELED:
             bgColor = "bg-red-400";
             textColor = "text-[#721c24]";
             break;
@@ -125,7 +126,7 @@ const OrdersHistory = (props) => {
                                                     </Typography>
                                                 </td>
                                                 <td className="m-2 grid gap-2">
-                                                    <a href={`/orders/${item.order_id}`}>
+                                                    <a href={`/orders_history/${item.order_id}`}>
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
