@@ -7,7 +7,9 @@ const Hero = () => {
 
     const getInfo = async () => {
         const response = await getAllBanners();
-        setInfo(response.data || []);
+        const responseData = response.data;
+        if (responseData.length > 3) setInfo(responseData.slice(0, 3));
+        else setInfo(response.data || []);
     };
 
     useEffect(() => {
