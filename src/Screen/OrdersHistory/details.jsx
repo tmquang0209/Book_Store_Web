@@ -1,18 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-
-import { MdPendingActions, MdOutlineCancel } from "react-icons/md";
-import { GiConfirmed } from "react-icons/gi";
-import { FaShippingFast, FaRegStar } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { currencyFormat } from "../../components/Common/formatNumber";
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from "@material-tailwind/react";
-import { cancelOrder, getOrderDetails, updateOrderStatus } from "../../API/order";
+import { Typography } from "@material-tailwind/react";
+import { cancelOrder, getOrderDetails } from "../../API/order";
 import { useParams } from "react-router-dom";
-import { dateAndTime, fullDate } from "../../components/Common/date";
+import { fullDate } from "../../components/Common/date";
 import { orderStatus } from "../../components/Constants/text";
 import { getDistrictName, getProvinceName, getWardName } from "../../components/Common/province";
 import DeliveryTimeline from "./deliveryTimeline";
@@ -31,9 +27,7 @@ const OrderDetails = (props) => {
 
     const total = useRef(0);
 
-    const goBack = () => {
-        window.history.back();
-    };
+    const goBack = () => window.history.back();
 
     const fetchOrderDetails = async () => {
         const res = await getOrderDetails(id);
