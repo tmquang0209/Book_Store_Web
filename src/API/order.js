@@ -30,3 +30,24 @@ export const getOrderDetails = async (orderId) => {
         console.error(err);
     }
 };
+
+export const updateOrderStatus = async (orderId, status) => {
+    try {
+        const token = getAccessToken();
+        const response = await axios.get(url.updateOrderStatus(orderId), { headers: { Authorization: token } }, { status });
+        return response.data;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export const cancelOrder = async (orderId) => {
+    try {
+        const token = getAccessToken();
+        console.log(token);
+        const response = await axios.put(url.cancelOrder(orderId), {}, { headers: { Authorization: token } });
+        return response.data;
+    } catch (err) {
+        console.error(err);
+    }
+};

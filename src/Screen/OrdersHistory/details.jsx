@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 
 import { MdPendingActions, MdOutlineCancel } from "react-icons/md";
@@ -9,107 +9,27 @@ import { IoIosArrowBack } from "react-icons/io";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { currencyFormat } from "../../components/Common/formatNumber";
-import { Typography } from "@material-tailwind/react";
-import { getOrderDetails } from "../../API/order";
+import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from "@material-tailwind/react";
+import { cancelOrder, getOrderDetails, updateOrderStatus } from "../../API/order";
 import { useParams } from "react-router-dom";
 import { dateAndTime, fullDate } from "../../components/Common/date";
 import { orderStatus } from "../../components/Constants/text";
 import { getDistrictName, getProvinceName, getWardName } from "../../components/Common/province";
+import DeliveryTimeline from "./deliveryTimeline";
+import CancelModal from "./cancelModal";
 
 const head = ["No", "Product name", "Quantity", "Price", "Total"];
-
-const DeliveryTimeline = ({ status, data }) => {
-    let timeline = [];
-    if (status !== orderStatus.CANCELED)
-        timeline = [
-            {
-                id: orderStatus.PENDING,
-                title: "Pending",
-                icon: <MdPendingActions size={20} />,
-                color: "bg-blue-500",
-            },
-            {
-                id: orderStatus.CONFIRMED,
-                title: "Confirmed",
-                icon: <GiConfirmed size={20} />,
-                color: "bg-green-500",
-            },
-            {
-                id: orderStatus.SHIPPING,
-                title: "Shipping",
-                icon: <FaShippingFast size={20} />,
-                color: "bg-yellow-500",
-            },
-            {
-                id: orderStatus.DELIVERED,
-                title: "Delivered",
-                icon: <FaRegStar size={20} />,
-                color: "bg-gray-500",
-            },
-        ];
-    else
-        timeline = [
-            {
-                id: orderStatus.PENDING,
-                title: "Pending",
-                icon: <MdPendingActions size={20} />,
-                color: "bg-blue-500",
-            },
-            {
-                id: orderStatus.CANCELED,
-                title: "Cancel",
-                icon: <MdOutlineCancel size={20} />,
-                color: "bg-red-500",
-            },
-        ];
-
-    return (
-        <ol className="w-full items-center justify-between sm:flex">
-            {timeline.map((item, index) => (
-                <li className="relative mb-6 w-full sm:mb-0" key={index}>
-                    <div className="flex items-center">
-                        <div
-                            className={`z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${item.color} text-white ring-0 ring-white sm:ring-8`}
-                        >
-                            {item.icon}
-                        </div>
-                        <div className="hidden h-0.5 w-full bg-gray-200 sm:flex"></div>
-                    </div>
-                    <div className="mt-3 sm:pe-8">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{item.title}</h3>
-                        {data &&
-                            data.map((shipItem) => {
-                                if (shipItem.status === item.id) {
-                                    return (
-                                        <>
-                                            <time className="mb-2 block text-sm font-normal leading-none text-gray-400">
-                                                {dateAndTime(shipItem?.time)}
-                                            </time>
-                                            <p className="text-base font-normal text-gray-500">{shipItem?.description}</p>
-                                        </>
-                                    );
-                                } else {
-                                    return (
-                                        <>
-                                            <div>No description</div>
-                                        </>
-                                    );
-                                }
-                            })}
-                    </div>
-                </li>
-            ))}
-        </ol>
-    );
-};
 
 const OrderDetails = (props) => {
     const { auth } = props;
     const { id } = useParams();
 
     const [details, setDetails] = useState([]);
+    const [open, setOpen] = useState(false);
 
-    const total = React.useRef(0);
+    const handleOpen = () => setOpen((prev) => !prev);
+
+    const total = useRef(0);
 
     const goBack = () => {
         window.history.back();
@@ -117,6 +37,7 @@ const OrderDetails = (props) => {
 
     const fetchOrderDetails = async () => {
         const res = await getOrderDetails(id);
+        console.log(res);
         if (res.success) {
             const provinceName = await getProvinceName(res.data.address.province);
             const districtName = await getDistrictName(res.data.address.province, res.data.address.district);
@@ -125,6 +46,15 @@ const OrderDetails = (props) => {
             setDetails({ ...res.data, address: { ...res.data.address, province: provinceName, district: districtName, ward: wardName } });
 
             total.current = res.data.products.map((item) => item.price * item.quantity).reduce((a, b) => a + b, 0);
+        }
+    };
+
+    const onCancelPress = async () => {
+        const res = await cancelOrder(id);
+        console.log(res);
+        if (res.success) {
+            fetchOrderDetails();
+            handleOpen();
         }
     };
 
@@ -154,7 +84,9 @@ const OrderDetails = (props) => {
                     <div className="flex justify-between">
                         <h1 className="text-2xl font-bold">Order ID: #{id}</h1>
                         {details.status === "pending" && (
-                            <button className="rounded-md bg-gradient-to-r from-red-600 to-red-300 px-2 py-2 text-white">Cancel</button>
+                            <button onClick={handleOpen} className="rounded-md bg-gradient-to-r from-red-600 to-red-300 px-2 py-2 text-white">
+                                Cancel
+                            </button>
                         )}
                     </div>
                     <div className="flex gap-10">
@@ -162,7 +94,7 @@ const OrderDetails = (props) => {
                             Order date: <span className="font-bold">{fullDate(details?.created_at)}</span>
                         </p>
                         <p>
-                            Order status:
+                            Order status:{" "}
                             <span className={`font-bold ${details?.status === orderStatus.CANCELED ? "text-red-500" : "text-green-500"}`}>
                                 {details?.status?.toUpperCase()}
                             </span>
@@ -186,36 +118,35 @@ const OrderDetails = (props) => {
                             </tr>
                         </thead>
                         <tbody className="text-center">
-                            {details.products &&
-                                details.products.map((item, index) => (
-                                    <tr className="even:bg-blue-gray-50/50" key={index}>
-                                        <td>
-                                            <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {index + 1}
-                                            </Typography>
-                                        </td>
-                                        <td className="p-4">
-                                            <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {item.name}
-                                            </Typography>
-                                        </td>
-                                        <td className="p-4 text-center">
-                                            <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {item.quantity}
-                                            </Typography>
-                                        </td>
-                                        <td className="p-4 text-center">
-                                            <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {currencyFormat(item.price)}
-                                            </Typography>
-                                        </td>
-                                        <td className="p-4 text-center">
-                                            <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {currencyFormat(item.price * item.quantity)}
-                                            </Typography>
-                                        </td>
-                                    </tr>
-                                ))}
+                            {details?.products?.map((item, index) => (
+                                <tr className="even:bg-blue-gray-50/50" key={index}>
+                                    <td>
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {index + 1}
+                                        </Typography>
+                                    </td>
+                                    <td className="p-4">
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {item?.name || "No name"}
+                                        </Typography>
+                                    </td>
+                                    <td className="p-4 text-center">
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {item?.quantity}
+                                        </Typography>
+                                    </td>
+                                    <td className="p-4 text-center">
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {currencyFormat(item?.price || 0)}
+                                        </Typography>
+                                    </td>
+                                    <td className="p-4 text-center">
+                                        <Typography variant="small" color="blue-gray" className="font-normal">
+                                            {currencyFormat(item?.price * item?.quantity || 0)}
+                                        </Typography>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                         <tfoot>
                             <tr className="gap-5 border-t">
@@ -266,6 +197,7 @@ const OrderDetails = (props) => {
                 </div>
             </div>
             <Footer />
+            <CancelModal open={open} handleOpen={handleOpen} onCancelPress={onCancelPress} />
         </>
     );
 };

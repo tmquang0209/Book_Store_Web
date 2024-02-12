@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 
 import Navbar from "../../components/Navbar";
@@ -6,9 +6,10 @@ import Footer from "../../components/Footer";
 import ProfileMenu from "../../components/Navbar/profileMenu";
 import { Typography } from "@material-tailwind/react";
 import { currencyFormat } from "../../components/Common/formatNumber";
-import { getOrders } from "../../API/order";
+import { cancelOrder, getOrders } from "../../API/order";
 import { fullDate } from "../../components/Common/date";
 import { orderStatus } from "../../components/Constants/text";
+import CancelModal from "./cancelModal";
 
 const head = ["No", "Date", "Status", "Total", ""];
 
@@ -47,10 +48,22 @@ const OrdersHistory = (props) => {
     const { auth } = props;
 
     const [orders, setOrders] = useState([]);
+    const [open, setOpen] = useState(false);
+    const orderId = useRef(null);
 
     const fetchOrderList = async (userId) => {
         const res = await getOrders(userId);
         res.success && setOrders(res.data);
+    };
+
+    const handleOpen = () => setOpen((prev) => !prev);
+
+    const handleCancel = async () => {
+        const res = await cancelOrder(orderId.current);
+        if (res.success) {
+            fetchOrderList(auth.user.user_id);
+            handleOpen();
+        }
     };
 
     useEffect(() => {
@@ -135,15 +148,22 @@ const OrdersHistory = (props) => {
                                                             Detail
                                                         </Typography>
                                                     </a>
-                                                    <button onClick={() => console.log("Cancel")}>
-                                                        <Typography
-                                                            variant="small"
-                                                            color="blue-gray"
-                                                            className="rounded-md bg-gradient-to-r from-red-900 to-red-500 px-4 py-2 text-center font-normal text-white"
+                                                    {item.status === orderStatus.PENDING && (
+                                                        <button
+                                                            onClick={() => {
+                                                                orderId.current = item.order_id;
+                                                                handleOpen();
+                                                            }}
                                                         >
-                                                            Cancel
-                                                        </Typography>
-                                                    </button>
+                                                            <Typography
+                                                                variant="small"
+                                                                color="blue-gray"
+                                                                className="rounded-md bg-gradient-to-r from-red-900 to-red-500 px-4 py-2 text-center font-normal text-white"
+                                                            >
+                                                                Cancel
+                                                            </Typography>
+                                                        </button>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}
@@ -154,6 +174,7 @@ const OrdersHistory = (props) => {
                 </div>
             </div>
             <Footer />
+            <CancelModal open={open} handleOpen={handleOpen} onCancelPress={handleCancel} />
         </>
     );
 };
