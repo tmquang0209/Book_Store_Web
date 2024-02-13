@@ -32,13 +32,13 @@ const Address = (props) => {
     const [wards, setWards] = useState([]);
 
     const onProvinceChange = (value) => {
-        setAddress({ ...address, province: value });
+        setAddress({ ...address, province: value, district: { value: "", label: "Select district" }, ward: { value: "", label: "Select ward" } });
         const getDistricts = provinces.find((item) => item.codename === value.value);
         setDistricts(getDistricts?.districts || []);
     };
 
     const onDistrictChange = (value) => {
-        setAddress({ ...address, district: value });
+        setAddress({ ...address, district: value, ward: { value: "", label: "Select ward" } });
         const getWards = districts.find((item) => item.codename === value.value);
         setWards(getWards?.wards || []);
     };
