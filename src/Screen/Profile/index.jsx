@@ -3,9 +3,6 @@ import { connect } from "react-redux";
 
 import { updateInfo } from "../../components/Store/Actions/authActions";
 
-import { FaRegUser } from "react-icons/fa6";
-import { FiShoppingCart } from "react-icons/fi";
-
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { updateUserInfo } from "../../API/user";
