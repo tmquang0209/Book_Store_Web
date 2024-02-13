@@ -29,7 +29,6 @@ export const loginUser = async (user) => {
 export const signupUser = async (user) => {
     try {
         const response = await axios.post(url.signup, user);
-
         return response.data;
     } catch (err) {
         console.log(err);
@@ -39,9 +38,24 @@ export const signupUser = async (user) => {
 
 export const updateUserInfo = async (userInfo) => {
     try {
-        console.log(userInfo);
         const accessToken = getAccessToken();
         const response = await axios.put(url.updateUserInfo, userInfo, {
+            headers: {
+                Authorization: accessToken,
+            },
+        });
+
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return err.response.data;
+    }
+};
+
+export const updateAddress = async (address) => {
+    try {
+        const accessToken = getAccessToken();
+        const response = await axios.post(url.updateAddress, address, {
             headers: {
                 Authorization: accessToken,
             },

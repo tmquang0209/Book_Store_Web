@@ -6,6 +6,8 @@ const url = {
     login: `${host}/user/login`,
     signup: `${host}/user/register`,
     updateUserInfo: `${host}/user/updateUserById`,
+    updateAddress: `${host}/user/updateAddress`,
+
     // banner
     getBanner: `${host}/banner`,
     // category
