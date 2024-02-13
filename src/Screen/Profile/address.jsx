@@ -6,10 +6,9 @@ import ProfileMenu from "../../components/Navbar/profileMenu";
 import { getProvinces } from "../../API/province";
 import SearchBox from "../../components/Common/search";
 import { updateAddress } from "../../API/user";
-import { updateInfo } from "../../components/Store/Actions/authActions";
 
 const Address = (props) => {
-    const { auth, updateInfo } = props;
+    const { auth } = props;
 
     const [address, setAddress] = useState({
         address: "",
@@ -176,4 +175,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, { updateInfo })(Address);
+export default connect(mapStateToProps, { })(Address);
