@@ -102,6 +102,15 @@ const Address = (props) => {
         return () => fetchData();
     }, [auth]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (!auth.isAuth) window.location.href = "/";
+        }, 500);
+
+        // Cleanup function to clear the timeout if the component unmounts
+        return () => clearTimeout(timer);
+    }, [auth.isAuth, auth.user]);
+
     return (
         <>
             <Navbar />
@@ -175,4 +184,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, { })(Address);
+export default connect(mapStateToProps, {})(Address);
