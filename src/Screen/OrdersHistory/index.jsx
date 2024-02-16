@@ -164,6 +164,17 @@ const OrdersHistory = (props) => {
                                                             </Typography>
                                                         </button>
                                                     )}
+                                                    {item.status === orderStatus.DELIVERED && (
+                                                        <a href={`/orders_history/${item.order_id}`}>
+                                                            <Typography
+                                                                variant="small"
+                                                                color="blue-gray"
+                                                                className="rounded-md bg-gradient-to-r from-green-900 to-green-500 px-4 py-2 text-center font-normal text-white"
+                                                            >
+                                                                Review
+                                                            </Typography>
+                                                        </a>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}

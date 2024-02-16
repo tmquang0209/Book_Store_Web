@@ -16,6 +16,7 @@ import OrdersHistory from "./Screen/OrdersHistory";
 import OrderDetails from "./Screen/OrdersHistory/details";
 import Profile from "./Screen/Profile";
 import Address from "./Screen/Profile/address";
+import Review from "./Screen/OrdersHistory/review";
 
 function App(props) {
     const { authAccessToken } = props;
@@ -48,6 +49,7 @@ function App(props) {
                         <Route path="/address" element={<Address />} />
                         <Route path="/orders_history" element={<OrdersHistory />} />
                         <Route path="/orders_history/:id" element={<OrderDetails />} />
+                        <Route path="/review/:id" element={<Review />} />
                     </Routes>
                 </BrowserRouter>
             </div>
