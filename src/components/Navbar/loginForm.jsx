@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { login } from "../Store/Actions/authActions";
 import { Input } from "@material-tailwind/react";
+import { Toast } from "../Common/toast";
 
 const LoginForm = (props) => {
     const { auth, login, handleToggle } = props;
@@ -52,9 +53,7 @@ const LoginForm = (props) => {
 
     return (
         <>
-            {loginInfo.message && (
-                <span className={`mb-2 flex rounded-md ${auth.isAuth ? "bg-green-300" : "bg-red-300"} p-2 text-white`}>{loginInfo?.message}</span>
-            )}
+            {loginInfo.message && <Toast message={loginInfo.message} type={auth.isAuth} />}
             <form className="s:w-[300px] sm:min-w-[400px]">
                 {fields.map((field, index) => (
                     <div className="mb-4 flex flex-col" key={index}>
