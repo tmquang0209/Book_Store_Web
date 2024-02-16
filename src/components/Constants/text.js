@@ -5,4 +5,6 @@ export const orderStatus = {
     SHIPPING: "shipping",
     DELIVERED: "delivered",
     CANCELED: "canceled",
+    REFUND: "refund",
+    SUCCESS: "success",
 };
