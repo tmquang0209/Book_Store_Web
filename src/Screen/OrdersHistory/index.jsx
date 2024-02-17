@@ -165,7 +165,7 @@ const OrdersHistory = (props) => {
                                                         </button>
                                                     )}
                                                     {item.status === orderStatus.DELIVERED && (
-                                                        <a href={`/orders_history/${item.order_id}`}>
+                                                        <a href={`/review/${item.order_id}`}>
                                                             <Typography
                                                                 variant="small"
                                                                 color="blue-gray"

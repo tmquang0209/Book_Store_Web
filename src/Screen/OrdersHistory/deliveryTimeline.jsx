@@ -15,7 +15,7 @@ const DeliveryTimeline = ({ status, data }) => {
                 color: "bg-blue-500",
             },
             {
-                id: orderStatus.CONFIRMED,
+                id: orderStatus.CONFIRM,
                 title: "Confirmed",
                 icon: <GiConfirmed size={20} />,
                 color: "bg-green-500",
@@ -49,8 +49,9 @@ const DeliveryTimeline = ({ status, data }) => {
             },
         ];
 
+    console.log(data, timeline);
     return (
-        <ol className="w-full items-center justify-between sm:flex">
+        <ol className="w-full justify-between sm:flex">
             {timeline.map((item, index) => (
                 <li className="relative mb-6 w-full sm:mb-0" key={index}>
                     <div className="flex items-center">
@@ -67,12 +68,12 @@ const DeliveryTimeline = ({ status, data }) => {
                             data.map((shipItem) => {
                                 if (shipItem.status === item.id) {
                                     return (
-                                        <>
-                                            <time className="mb-2 block text-sm font-normal leading-none text-gray-400">
+                                        <div className="py-1">
+                                            <time className="mb-2 block text-sm font-normal leading-none text-primary">
                                                 {dateAndTime(shipItem?.time)}
                                             </time>
                                             <p className="text-base font-normal text-gray-500">{shipItem?.description}</p>
-                                        </>
+                                        </div>
                                     );
                                 } else {
                                     return (

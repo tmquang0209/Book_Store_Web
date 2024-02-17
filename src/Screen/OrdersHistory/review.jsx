@@ -72,7 +72,7 @@ const Review = (props) => {
         });
 
         // submit review
-        const res = await submitReview({ reviews: { ...data }, order_id: id });
+        const res = await submitReview({ reviews: [...data], order_id: id });
         setMsg({ message: res.message, success: res.success });
     };
 
@@ -85,7 +85,7 @@ const Review = (props) => {
         const checkCanReview = async () => {
             const res = await getOrderDetails(id);
             const data = res.data;
-            if (data.status !== "delivered") {
+            if (data.status !== "delivered" || !data.data) {
                 window.location.href = "/orders_history";
             }
         };

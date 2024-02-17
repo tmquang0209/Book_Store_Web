@@ -27,7 +27,6 @@ export const getProductsCanReview = async (orderId) => {
 
 export const submitReview = async (data) => {
     try {
-        console.log(data.reviews);
         const accessToken = getAccessToken();
         const response = await axios.post(url.userReview, data, { headers: { Authorization: accessToken } });
         const responseData = response.data;
