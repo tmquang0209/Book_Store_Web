@@ -172,12 +172,37 @@ const Payment = (props) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             if (auth.user) {
-                setPersonalInfo({
-                    ...personalInfo,
-                    first_name: auth.user.first_name,
-                    last_name: auth.user.last_name,
-                    phone_number: auth.user.telephone,
-                });
+                const fetchData = async () => {
+                    try {
+                        const provincesList = await getProvinces();
+
+                        const userAddress = auth?.user?.address;
+
+                        if (userAddress && provincesList) {
+                            const province = provincesList.find((item) => item.codename === userAddress.province);
+                            const district = province.districts.find((item) => item.codename === userAddress.district);
+                            const ward = district.wards.find((item) => item.codename === userAddress.ward);
+                            setPersonalInfo({
+                                ...personalInfo,
+                                first_name: auth.user.first_name,
+                                last_name: auth.user.last_name,
+                                phone_number: auth.user.telephone,
+                                address: userAddress.address,
+                                province: { value: userAddress.province, label: province.name },
+                                district: { value: userAddress.district, label: district.name },
+                                ward: { value: userAddress.ward, label: ward.name },
+                            });
+
+                            setProvinces(provincesList);
+                            setDistricts(province.districts);
+                            setWards(district.wards);
+                        }
+                    } catch (error) {
+                        // Handle errors if needed
+                        console.log(error);
+                    }
+                };
+                fetchData();
             } else {
                 window.location.href = "/";
             }
