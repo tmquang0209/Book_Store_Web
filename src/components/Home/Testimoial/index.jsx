@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { getAllReviews } from "../../API/reviews";
+import { getAllReviews } from "../../../API/reviews";
 
 const Testimonial = () => {
     const [reviews, setReviews] = useState([]);
@@ -63,18 +63,18 @@ const Testimonial = () => {
                         <p className="text-xs text-gray-400">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa iure, corporis</p>
                     </div>
                     {/* review card */}
-                    <div data-aos="zoom-in" className="mx-auto grid grid-cols-1 gap-6">
+                    <div data-aos="zoom-in" className="mx-auto grid grid-cols-1 gap-6" key={"review"}>
                         <Slider {...settings}>
                             {reviews.map((review) => (
-                                <div className="my-6">
-                                    <div key={review._id} className="relative mx-4 flex flex-col gap-4 rounded-xl bg-primary/10 px-6 py-8 shadow-lg">
+                                <div className="my-6" key={review?._id}>
+                                    <div className="relative mx-4 flex flex-col gap-4 rounded-xl bg-primary/10 px-6 py-8 shadow-lg">
                                         <div>
-                                            <img className="h-20 w-20 rounded-full" src={review.image} alt="" />
+                                            <img className="h-20 w-20 rounded-full" src={review?.image} alt="" />
                                         </div>
                                         <div className="flex items-center gap-4">
                                             <div>
-                                                <p className="text-sm text-gray-500">{review.description}</p>
-                                                <h1 className="dark:text-light text-xl font-bold text-black/80">{review.name}</h1>
+                                                <p className="text-sm text-gray-500">{review?.description}</p>
+                                                <h1 className="dark:text-light text-xl font-bold text-black/80">{review?.name}</h1>
                                             </div>
                                         </div>
 

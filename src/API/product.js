@@ -8,7 +8,7 @@ export const getTrendingProducts = async () => {
         return responseData;
     } catch (err) {
         console.error(err);
-        return err.response.data;
+        return err.response.data || [];
     }
 };
 
@@ -19,6 +19,28 @@ export const getTopBooks = async () => {
         return responseData;
     } catch (err) {
         console.error(err);
-        return err.response.data;
+        return err.response.data || [];
+    }
+};
+
+export const getProductList = async (params) => {
+    try {
+        const response = await axios.get(url.getProduct, { params });
+        const responseData = response.data;
+        return responseData;
+    } catch (err) {
+        console.error(err);
+        return err.response.data || [];
+    }
+};
+
+export const getProductDetail = async (productId) => {
+    try {
+        const response = await axios.get(url.getProductById(productId));
+        const responseData = response.data;
+        return responseData;
+    } catch (err) {
+        console.error(err);
+        return err.response.data || [];
     }
 };

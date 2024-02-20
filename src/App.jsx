@@ -1,16 +1,28 @@
 import "./App.css";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import BestBooks from "./components/BestBooks";
-import Banner from "./components/Banner";
-import React from "react";
+import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import TopBooks from "./components/TopBooks";
-import Footer from "./components/Footer";
-import Testimonial from "./components/Testimoial";
+import { connect } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-function App() {
+import { authAccessToken } from "./components/Store/Actions/authActions";
+
+import Home from "./Screen/Home";
+import ProductsList from "./Screen/Products/list";
+import ProductDetails from "./Screen/Products/detail";
+import Checkout from "./Screen/Checkout";
+import Payment from "./Screen/Checkout/payment";
+import OrdersHistory from "./Screen/OrdersHistory";
+import OrderDetails from "./Screen/OrdersHistory/details";
+import Profile from "./Screen/Profile";
+import Address from "./Screen/Profile/address";
+import Review from "./Screen/OrdersHistory/review";
+import About from "./Screen/About";
+import Contact from "./Screen/Contact";
+
+function App(props) {
+    const { authAccessToken } = props;
+
     React.useEffect(() => {
         AOS.init({
             offset: 100,
@@ -21,19 +33,38 @@ function App() {
         AOS.refresh();
     }, []);
 
+    useEffect(() => {
+        authAccessToken();
+    }, [authAccessToken]);
+
     return (
         <>
             <div className="bg-white duration-200">
-                <Navbar />
-                <Hero />
-                <BestBooks />
-                <Banner />
-                <TopBooks />
-                <Testimonial />
-                <Footer />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/products" element={<ProductsList />} />
+                        <Route path="/product_details" element={<ProductDetails />} />
+                        <Route path="/checkout" element={<Checkout />} />
+                        <Route path="/payment" element={<Payment />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/address" element={<Address />} />
+                        <Route path="/orders_history" element={<OrdersHistory />} />
+                        <Route path="/orders_history/:id" element={<OrderDetails />} />
+                        <Route path="/review/:id" element={<Review />} />
+                    </Routes>
+                </BrowserRouter>
             </div>
         </>
     );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+export default connect(mapStateToProps, { authAccessToken })(App);
