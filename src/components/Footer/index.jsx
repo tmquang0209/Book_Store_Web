@@ -1,18 +1,20 @@
 import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaLocationArrow, FaMobileAlt } from "react-icons/fa";
+import { LOGO } from "../Constants/images";
+import { contactInfo } from "../Constants/text";
 
 const FooterLinks = [
     {
         title: "Home",
-        link: "/#",
+        link: "/",
     },
     {
         title: "About",
-        link: "/#about",
+        link: "/about",
     },
     {
         title: "Contact",
-        link: "/#contact",
+        link: "/contact",
     },
     {
         title: "Blog",
@@ -28,30 +30,33 @@ const Footer = () => {
                     {/* company Details */}
                     <div className=" px-4 py-8 ">
                         <h1 className="mb-3 flex items-center gap-3 text-justify text-xl font-bold sm:text-left sm:text-3xl">
-                            {/* <img src={} alt="Logo" className="max-w-[50px]" /> */}
+                            <img src={LOGO} alt="Logo" className="max-w-[50px]" />
                             Books Store
                         </h1>
+                        {/* short quote */}
                         <p className="">
-                            Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, voluptate.{" "}
+                            Welcome to the TLU Bookstore, where literature comes to life! Nestled in the heart of our community, our bookstore is a
+                            haven for book enthusiasts of all genres. Whether you're a fan of captivating anime, enchanted by fantastical worlds, or
+                            engrossed in the rich narratives of novels, we have a diverse collection that caters to every literary taste.
                         </p>
                         <br />
                         <div className="flex items-center gap-3">
                             <FaLocationArrow />
-                            <p>Noida, Uttar Pradesh</p>
+                            <p>{contactInfo.ADDRESS}</p>
                         </div>
                         <div className="mt-3 flex items-center gap-3">
                             <FaMobileAlt />
-                            <p>+91 123456789</p>
+                            <p>{contactInfo.PHONE}</p>
                         </div>
                         {/* Social Handle */}
                         <div className="mt-6 flex items-center gap-3">
-                            <a href="/">
+                            <a href={contactInfo.INSTAGRAM}>
                                 <FaInstagram className="text-3xl" />
                             </a>
-                            <a href="/">
+                            <a href={contactInfo.FACEBOOK}>
                                 <FaFacebook className="text-3xl" />
                             </a>
-                            <a href="/">
+                            <a href={contactInfo.LINKEDIN}>
                                 <FaLinkedin className="text-3xl" />
                             </a>
                         </div>
@@ -69,6 +74,9 @@ const Footer = () => {
                                             key={link.title}
                                             id={link.title}
                                             className="cursor-pointer space-x-1 text-gray-500 duration-300 hover:translate-x-1 hover:text-primary"
+                                            onClick={() => {
+                                                window.location.href = link.link;
+                                            }}
                                         >
                                             <span>&#11162;</span>
                                             <span>{link.title}</span>

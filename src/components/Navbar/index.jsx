@@ -12,6 +12,7 @@ import { Modal } from "../Modal";
 import DrawerCart from "../Drawer/cart";
 import LoginForm from "./loginForm";
 import SignupForm from "./signupForm";
+import { LOGO } from "../Constants/images";
 
 const Menu = [
     {
@@ -22,7 +23,7 @@ const Menu = [
     {
         id: 2,
         name: "Best Seller",
-        link: "/#topSeller",
+        link: "/products?sort=best-selling",
     },
 ];
 
@@ -94,7 +95,7 @@ const Navbar = (props) => {
                     <div className="flex items-center justify-between">
                         <div>
                             <a href="/" className="flex items-center justify-center gap-2 align-middle text-2xl font-bold sm:text-3xl">
-                                <img src="/logo-tlu.svg" className="w-10" alt="Logo" />
+                                <img src={LOGO} className="w-10" alt="Logo" />
                                 Books
                             </a>
                         </div>

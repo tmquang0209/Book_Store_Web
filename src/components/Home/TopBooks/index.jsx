@@ -82,7 +82,7 @@ const TopBooks = (props) => {
 
                     <div className="mt-10 flex justify-center">
                         <button className="rounded-full bg-gradient-to-r from-primary to-secondary px-5 py-2 text-white">
-                            <Link to="/products">View All Books</Link>
+                            <Link to="/products?sort=featured">View All Books</Link>
                         </button>
                     </div>
                 </div>
