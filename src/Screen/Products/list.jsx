@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { Button, IconButton } from "@material-tailwind/react";
+import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -10,10 +12,11 @@ import ProductItem from "../../components/Products/item";
 import EmptyItem from "../../components/Products/emptyItem";
 import { getCategory } from "../../API/category";
 import { Input } from "@material-tailwind/react";
+import { LIMIT_PER_PAGE } from "../../components/Constants/number";
 
 const emptyArr = Array.from(Array(12).keys());
 
-const sort = [
+const sortArr = [
     {
         name: "best-selling",
         value: "Best Selling",
@@ -51,13 +54,24 @@ const sort = [
 const Products = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [active, setActive] = useState(1);
+    const [numberOfPages, setNumberOfPages] = useState(0);
 
     const inputSearch = [
         {
             name: "keyword",
             type: "text",
             placeholder: "Keyword",
-            onChange: (e) => setSearchParams({ ...searchParams, keyword: e.target.value }),
+            onChange: (e) => {
+                setSearchParams({ ...searchParams, keyword: e.target.value });
+
+                // Update URL
+                const url = new URL(window.location.href);
+                url.searchParams.set("keyword", e.target.value);
+
+                // Update the browser's location without triggering a page reload
+                window.history.pushState({}, "", url.toString());
+            },
         },
         {
             name: "from",
@@ -88,10 +102,18 @@ const Products = () => {
         categoryList.current = res.data;
     };
 
+    const onValueChange = (e) => {
+        setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
+        // add to url
+        const url = new URL(window.location.href);
+        url.searchParams.set(e.target.name, e.target.value);
+    };
+
     const fetchBooks = async (searchParams) => {
         const res = await getProductList(searchParams);
 
         setBooks(res.data || []);
+        setNumberOfPages(Math.ceil(res.data.length / LIMIT_PER_PAGE));
         setLoading(false);
     };
 
@@ -113,10 +135,41 @@ const Products = () => {
         const to = url.searchParams.get("to");
 
         setSearchParams({ keyword, category, sort, from, to });
+        // set selected value
+        // category
+        const checkCategory = categoryList.current?.find((item) => item.category_id === category);
+        if (checkCategory) {
+            document.getElementById("category").value = checkCategory.category_id;
+        }
+        // sort
+        const checkSort = sortArr.find((item) => item.name === sort);
+        if (checkSort) {
+            document.getElementById("sort").value = checkSort.name;
+        }
 
         fetchBooks({ keyword, category, sort, from, to });
         getCategoryList();
     }, []);
+
+    // pagination
+    const getItemProps = (index) => ({
+        variant: active === index ? "filled" : "text",
+        color: "gray",
+        onClick: () => setActive(index),
+    });
+
+    const next = () => {
+        console.log(active, numberOfPages);
+        if (active === numberOfPages) return;
+
+        setActive(active + 1);
+    };
+
+    const prev = () => {
+        if (active === 1) return;
+
+        setActive(active - 1);
+    };
 
     return (
         <>
@@ -159,11 +212,17 @@ const Products = () => {
                             />
                         ))}
                         <select
+                            id="sort"
                             className="h-10 w-full rounded-md border border-solid border-brown-100 p-1"
                             onChange={(e) => setSearchParams({ ...searchParams, sort: e.target.value })}
                         >
-                            {sort.map((item, index) => (
-                                <option key={index} value={item.name}>
+                            {sortArr.map((item, index) => (
+                                <option
+                                    key={index}
+                                    value={item.name}
+                                    {...searchParams}
+                                    {...(searchParams["sort"] === item.value ? "selected" : null)}
+                                >
                                     {item.value}
                                 </option>
                             ))}
@@ -183,12 +242,28 @@ const Products = () => {
                               </div>
                           ))
                         : books &&
-                          books.map((item, index) => (
+                          books.slice((active - 1) * LIMIT_PER_PAGE, active * LIMIT_PER_PAGE).map((item, index) => (
                               <div className="items-center justify-center">
                                   <ProductItem item={item} index={index} />
                               </div>
                           ))}
                     {books.length === 0 && <div className="text-center">No product found</div>}
+                </div>
+                <div className="mb-5 flex justify-center self-auto">
+                    <Button variant="text" className="flex items-center gap-2" onClick={prev} disabled={active === 1}>
+                        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+                    </Button>
+                    <div className="flex items-center gap-2">
+                        {Array.from(Array(numberOfPages).keys()).map((index) => (
+                            <Button key={index} {...getItemProps(index + 1)}>
+                                {index + 1}
+                            </Button>
+                        ))}
+                    </div>
+                    <Button variant="text" className="flex items-center gap-2" onClick={next} disabled={active === numberOfPages}>
+                        Next
+                        <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+                    </Button>
                 </div>
             </div>
             <Footer />
