@@ -36,3 +36,14 @@ export const submitReview = async (data) => {
         return err.response.data;
     }
 };
+
+export const getReviewByProduct = async (productId) => {
+    try {
+        const response = await axios.get(url.getReviewByProduct(productId));
+        const responseData = response.data;
+        return responseData;
+    } catch (err) {
+        console.error(err);
+        return err.response.data;
+    }
+};

@@ -21,6 +21,7 @@ const url = {
 
     getTopProducts: `${host}/product/topSeller`,
     // review
+    getReviewByProduct: (productId) => `${host}/review/reviewProduct/${productId}`,
     getReview: `${host}/review/allReviews`,
     getProductsCanReview: (orderId) => `${host}/review/productsCanReview/${orderId}`,
     userReview: `${host}/review/userReview`,

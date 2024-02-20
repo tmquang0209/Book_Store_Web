@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Rating, Typography } from "@material-tailwind/react";
+import { Rating, Tab, TabPanel, Tabs, TabsBody, TabsHeader, Typography } from "@material-tailwind/react";
 import ReactImageGallery from "react-image-gallery";
 import { connect } from "react-redux";
 
@@ -8,8 +8,18 @@ import { addToCart } from "../../components/Store/Actions/cartAction";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { getProductDetail } from "../../API/product";
-import { NO_IMAGE } from "../../components/Constants/images";
+import { NO_AVATAR, NO_IMAGE } from "../../components/Constants/images";
 import { currencyFormat, formatNumber } from "../../components/Common/formatNumber";
+import { getReviewByProduct } from "../../API/reviews";
+
+const reviewsTab = [
+    { label: "All", value: "all" },
+    { label: `5 ⭐`, value: 5 },
+    { label: "4 ⭐", value: 4 },
+    { label: "3 ⭐", value: 3 },
+    { label: "2 ⭐", value: 2 },
+    { label: "1 ⭐", value: 1 },
+];
 
 const RatingStar = (props) => {
     const { value } = props;
@@ -48,6 +58,8 @@ const ProductDetails = (props) => {
     const [product, setProduct] = React.useState({});
     // const [loading, setLoading] = React.useState(true);
     const [images, setImages] = React.useState([]);
+    const [reviews, setReviews] = React.useState([]);
+    const [activeTab, setActiveTab] = React.useState("all");
 
     const fetchProduct = async (productId) => {
         const response = await getProductDetail(productId);
@@ -68,6 +80,13 @@ const ProductDetails = (props) => {
         }
     };
 
+    const fetchReviews = async (productId) => {
+        const response = await getReviewByProduct(productId);
+        if (response.success) {
+            setReviews(response.data);
+        }
+    };
+
     const handleQuantityChange = (e) => {
         setProduct({ ...product, order: Number(e.target.value) });
     };
@@ -83,6 +102,7 @@ const ProductDetails = (props) => {
         const url = new URL(window.location.href);
         const productId = url.searchParams.get("product_id");
         fetchProduct(productId);
+        fetchReviews(productId);
     }, []);
 
     return (
@@ -153,18 +173,55 @@ const ProductDetails = (props) => {
                 <div className="mt-5">
                     <h1 className="text-xl font-bold">Reviews</h1>
                     <div>
-                        {/* {product?.reviews?.map((review, index) => (
-                            <div key={index.toString()} className="flex flex-col gap-2">
-                                <div className="flex items-center gap-2">
-                                    <img src={review?.user?.avatar || NO_IMAGE} alt={review?.user?.username} className="h-10 w-10 rounded-full" />
-                                    <div>
-                                        <h1 className="text-lg font-bold">{review?.user?.username}</h1>
-                                        <Rating value={review?.rating} readonly />
-                                    </div>
-                                </div>
-                                <div>{review?.review}</div>
-                            </div>
-                        ))} */}
+                        <Tabs value="all" className="bg-transparent">
+                            <TabsHeader
+                                className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+                                indicatorProps={{
+                                    className: "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+                                }}
+                            >
+                                {reviewsTab.map(({ label, value }) => (
+                                    <Tab
+                                        key={value}
+                                        value={value}
+                                        onClick={() => setActiveTab(value)}
+                                        className={activeTab === value ? "text-gray-900" : ""}
+                                    >
+                                        {label}
+                                    </Tab>
+                                ))}
+                            </TabsHeader>
+                            <TabsBody
+                                animate={{
+                                    initial: { y: 250 },
+                                    mount: { y: 0 },
+                                    unmount: { y: 250 },
+                                }}
+                            >
+                                {reviewsTab.map((tab, index) => (
+                                    <TabPanel key={index.toString()} value={tab.value}>
+                                        {reviews
+                                            ?.filter((review) => review.rating === tab.value || tab.value === "all")
+                                            .map((review, index) => (
+                                                <div key={index.toString()} className="flex flex-row gap-2">
+                                                    <img
+                                                        src={review?.user?.avatar || NO_AVATAR}
+                                                        alt={review?.name}
+                                                        className="h-10 w-10 rounded-full"
+                                                    />
+                                                    <div className="flex flex-col gap-2">
+                                                        <div>
+                                                            <h1 className="text-lg font-bold">{review?.name}</h1>
+                                                            <Rating value={review?.rating} readonly />
+                                                        </div>
+                                                        <div>{review?.review}</div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                    </TabPanel>
+                                ))}
+                            </TabsBody>
+                        </Tabs>
                     </div>
                 </div>
                 <div className="mt-5">
