@@ -83,3 +83,33 @@ export const changePassword = async (password) => {
         return err.response.data;
     }
 };
+
+export const forgotPassword = async (username) => {
+    try {
+        const response = await axios.post(url.forgotPassword, { username });
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return err.response.data;
+    }
+};
+
+export const verifyCode = async (username, code) => {
+    try {
+        const response = await axios.post(url.verifyCode, { username, verify_code: Number(code) });
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return err.response.data;
+    }
+};
+
+export const createNewPassword = async (username, new_password, confirm_password, verify_code) => {
+    try {
+        const response = await axios.post(url.createNewPassword, { username, verify_code: Number(verify_code), new_password, confirm_password });
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return err.response.data;
+    }
+};
