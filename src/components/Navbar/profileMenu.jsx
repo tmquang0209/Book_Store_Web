@@ -16,6 +16,18 @@ const menu = [
         icon: <FaRegUser />,
     },
     {
+        id: "payment",
+        title: "Payment Methods",
+        path: "/payment_methods",
+        icon: <FaRegUser />,
+    },
+    {
+        id: "change_password",
+        title: "Change Password",
+        path: "/change_password",
+        icon: <FaRegUser />,
+    },
+    {
         id: "history",
         title: "Orders History",
         path: "/orders_history",
