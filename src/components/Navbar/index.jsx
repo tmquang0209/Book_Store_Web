@@ -49,6 +49,7 @@ const DropdownLinks = [
 
 const Navbar = (props) => {
     const { auth, logout } = props;
+
     const [isOpenModal, setIsOpenModal] = React.useState(false);
     const [isOpenDrawer, setIsOpenDrawer] = React.useState(false);
     const [accessToken, setAccessToken] = useState(null);

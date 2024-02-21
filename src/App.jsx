@@ -21,6 +21,11 @@ import Review from "./Screen/OrdersHistory/review";
 import About from "./Screen/About";
 import Contact from "./Screen/Contact";
 import NotFound from "./Screen/NotFound";
+import ForgotPassword from "./Screen/ForgotPassword";
+import VerifyCode from "./Screen/ForgotPassword/verifyCode";
+import ResetPassword from "./Screen/ForgotPassword/newPassword";
+import Login from "./Screen/Login";
+import Signup from "./Screen/Signup";
 
 function App(props) {
     const { authAccessToken } = props;
@@ -57,6 +62,12 @@ function App(props) {
                         <Route path="/orders_history" element={<OrdersHistory />} />
                         <Route path="/orders_history/:id" element={<OrderDetails />} />
                         <Route path="/review/:id" element={<Review />} />
+                        <Route path="/forgot_password" element={<ForgotPassword />} />
+                        <Route path="/verify_code" element={<VerifyCode />} />
+                        <Route path="/reset_password" element={<ResetPassword />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </BrowserRouter>

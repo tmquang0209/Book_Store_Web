@@ -8,6 +8,9 @@ const url = {
     updateUserInfo: `${host}/user/updateUserById`,
     updateAddress: `${host}/user/updateAddress`,
     changePassword: `${host}/user/changePassword`,
+    forgotPassword: `${host}/user/forgotPassword`,
+    verifyCode: `${host}/user/verifyCode`,
+    createNewPassword: `${host}/user/createNewPassword`,
 
     // banner
     getBanner: `${host}/banner`,
