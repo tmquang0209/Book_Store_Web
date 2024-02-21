@@ -7,6 +7,7 @@ const url = {
     signup: `${host}/user/register`,
     updateUserInfo: `${host}/user/updateUserById`,
     updateAddress: `${host}/user/updateAddress`,
+    changePassword: `${host}/user/changePassword`,
 
     // banner
     getBanner: `${host}/banner`,
@@ -18,6 +19,7 @@ const url = {
     getProductById: (id) => `${host}/product/${id}/detail`,
     getProductByCategory: `${host}/product/productByCategory`,
     getTrendingProducts: `${host}/product/trending`,
+    getSimilarProducts: (id) => `${host}/product/similarProducts/${id}`,
 
     getTopProducts: `${host}/product/topSeller`,
     // review

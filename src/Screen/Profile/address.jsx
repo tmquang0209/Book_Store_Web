@@ -57,7 +57,6 @@ const Address = (props) => {
 
         // update to db
         const res = await updateAddress(clean);
-        console.log(res);
         const message = document.getElementById("message");
         if (res.success) {
             message.innerHTML = `<div class="bg-green-500 text-white p-2 rounded-md">${res.message}</div>`;

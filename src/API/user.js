@@ -67,3 +67,19 @@ export const updateAddress = async (address) => {
         return err.response.data;
     }
 };
+
+export const changePassword = async (password) => {
+    try {
+        const accessToken = getAccessToken();
+        const response = await axios.post(url.changePassword, password, {
+            headers: {
+                Authorization: accessToken,
+            },
+        });
+
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return err.response.data;
+    }
+};
