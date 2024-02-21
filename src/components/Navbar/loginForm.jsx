@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { login } from "../Store/Actions/authActions";
 import { Input } from "@material-tailwind/react";
@@ -22,7 +22,7 @@ const LoginForm = (props) => {
         },
     ];
 
-    const [loginInfo, setLoginInfo] = React.useState({
+    const [loginInfo, setLoginInfo] = useState({
         username: "",
         password: "",
         message: "",

@@ -24,6 +24,7 @@ import NotFound from "./Screen/NotFound";
 import ForgotPassword from "./Screen/ForgotPassword";
 import VerifyCode from "./Screen/ForgotPassword/verifyCode";
 import ResetPassword from "./Screen/ForgotPassword/newPassword";
+import Login from "./Screen/Login";
 
 function App(props) {
     const { authAccessToken } = props;
@@ -63,6 +64,7 @@ function App(props) {
                         <Route path="/forgot_password" element={<ForgotPassword />} />
                         <Route path="/verify_code" element={<VerifyCode />} />
                         <Route path="/reset_password" element={<ResetPassword />} />
+                        <Route path="/login" element={<Login />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>
