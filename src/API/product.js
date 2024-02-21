@@ -44,3 +44,14 @@ export const getProductDetail = async (productId) => {
         return err.response.data || [];
     }
 };
+
+export const getSimilarProducts = async (productId) => {
+    try {
+        const response = await axios.get(url.getSimilarProducts(productId));
+        const responseData = response.data;
+        return responseData;
+    } catch (err) {
+        console.error(err);
+        return err.response.data || [];
+    }
+};

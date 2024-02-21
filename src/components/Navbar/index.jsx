@@ -1,6 +1,9 @@
 // Note: Navbar component
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 // import icons
 import { FaCaretDown } from "react-icons/fa";
@@ -90,6 +93,18 @@ const Navbar = (props) => {
 
     return (
         <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="shadow-lg">
                 <div className="sm-y:0 container py-3">
                     <div className="flex items-center justify-between">

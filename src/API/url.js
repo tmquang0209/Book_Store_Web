@@ -20,8 +20,8 @@ const url = {
     getProductByCategory: `${host}/product/productByCategory`,
     getTrendingProducts: `${host}/product/trending`,
     getSimilarProducts: (id) => `${host}/product/similarProducts/${id}`,
-
     getTopProducts: `${host}/product/topSeller`,
+
     // review
     getReviewByProduct: (productId) => `${host}/review/reviewProduct/${productId}`,
     getReview: `${host}/review/allReviews`,
