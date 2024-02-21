@@ -49,6 +49,7 @@ const DropdownLinks = [
 
 const Navbar = (props) => {
     const { auth, logout } = props;
+  
     const [isOpenModal, setIsOpenModal] = React.useState(false);
     const [isOpenDrawer, setIsOpenDrawer] = React.useState(false);
     const [accessToken, setAccessToken] = useState(null);
@@ -189,6 +190,7 @@ const Navbar = (props) => {
                                                         onClick={handleLogout}
                                                         className="inline-block w-full rounded-md p-2 text-red-600 hover:bg-primary/20"
                                                     >
+                                                    <a href="/logout" className="inline-block w-full rounded-md p-2 text-red-600 hover:bg-primary/20">
                                                         Logout
                                                     </a>
                                                 </li>
@@ -264,6 +266,7 @@ const Navbar = (props) => {
                                                                 <a
                                                                     href="/#logout"
                                                                     onClick={handleLogout}
+                                                                    href="/logout"
                                                                     className="inline-block w-full rounded-md p-2 text-red-600 hover:bg-primary/20"
                                                                 >
                                                                     Logout
