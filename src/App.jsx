@@ -19,6 +19,7 @@ import Address from "./Screen/Profile/address";
 import Review from "./Screen/OrdersHistory/review";
 import About from "./Screen/About";
 import Contact from "./Screen/Contact";
+import NotFound from "./Screen/NotFound";
 
 function App(props) {
     const { authAccessToken } = props;
@@ -54,6 +55,7 @@ function App(props) {
                         <Route path="/orders_history" element={<OrdersHistory />} />
                         <Route path="/orders_history/:id" element={<OrderDetails />} />
                         <Route path="/review/:id" element={<Review />} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </BrowserRouter>
             </div>
