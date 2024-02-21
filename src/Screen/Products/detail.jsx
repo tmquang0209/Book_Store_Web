@@ -7,10 +7,12 @@ import { addToCart } from "../../components/Store/Actions/cartAction";
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { getProductDetail } from "../../API/product";
+import { getProductDetail, getSimilarProducts } from "../../API/product";
 import { NO_AVATAR, NO_IMAGE } from "../../components/Constants/images";
 import { currencyFormat, formatNumber } from "../../components/Common/formatNumber";
 import { getReviewByProduct } from "../../API/reviews";
+import { FiEye } from "react-icons/fi";
+import { FaCartPlus } from "react-icons/fa";
 
 const reviewsTab = [
     { label: "All", value: "all" },
@@ -60,6 +62,14 @@ const ProductDetails = (props) => {
     const [images, setImages] = React.useState([]);
     const [reviews, setReviews] = React.useState([]);
     const [activeTab, setActiveTab] = React.useState("all");
+    const [similarProducts, setSimilarProducts] = React.useState([]);
+
+    const fetchSimilarProducts = async (productId) => {
+        const response = await getSimilarProducts(productId);
+        if (response.success) {
+            setSimilarProducts(response.data);
+        }
+    };
 
     const fetchProduct = async (productId) => {
         const response = await getProductDetail(productId);
@@ -103,6 +113,7 @@ const ProductDetails = (props) => {
         const productId = url.searchParams.get("product_id");
         fetchProduct(productId);
         fetchReviews(productId);
+        fetchSimilarProducts(productId);
     }, []);
 
     return (
@@ -226,6 +237,33 @@ const ProductDetails = (props) => {
                 </div>
                 <div className="mt-5">
                     <h1 className="text-xl font-bold">Similar books</h1>
+                    <div className="flex w-full flex-row gap-5 overflow-auto">
+                        {similarProducts.map((product, index) => (
+                            <div className="mb-2 rounded-2xl shadow-sm">
+                                <div className="h-[200px] w-[150px]">
+                                    <img alt="" src={product.thumbnail || NO_IMAGE} />
+                                </div>
+                                <div className="flex flex-col gap-2 px-2">
+                                    <h1 className="text-lg font-bold">{product.name}</h1>
+                                    <div className="text-xl font-bold text-red-500">{currencyFormat(product?.price || 0)}</div>
+                                    <div className="mt-4 grid grid-cols-2 items-center justify-center">
+                                        <a
+                                            href={`/product_details?product_id=${product.product_id}`}
+                                            className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
+                                        >
+                                            <FiEye />
+                                        </a>
+                                        <button
+                                            onClick={() => addToCart({ product_id: product.product_id, quantity: 1 })}
+                                            className="flex w-full items-center justify-center px-4 py-2 hover:scale-105 hover:bg-primary hover:text-white"
+                                        >
+                                            <FaCartPlus />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
             <Footer />

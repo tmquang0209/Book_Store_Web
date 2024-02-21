@@ -1,6 +1,11 @@
 // Note: Navbar component
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// import actions
+import { logout } from "../Store/Actions/authActions";
 
 // import icons
 import { FaCaretDown } from "react-icons/fa";
@@ -43,7 +48,8 @@ const DropdownLinks = [
 ];
 
 const Navbar = (props) => {
-    const { auth } = props;
+    const { auth, logout } = props;
+  
     const [isOpenModal, setIsOpenModal] = React.useState(false);
     const [isOpenDrawer, setIsOpenDrawer] = React.useState(false);
     const [accessToken, setAccessToken] = useState(null);
@@ -80,6 +86,11 @@ const Navbar = (props) => {
         setBody(<LoginForm handleToggle={handleToggle} />);
     };
 
+    const handleLogout = async () => {
+        await logout();
+        window.location.href = "/";
+    };
+
     useEffect(() => {
         if (auth.user?.token) {
             setAccessToken(auth.user.token);
@@ -90,6 +101,18 @@ const Navbar = (props) => {
 
     return (
         <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="shadow-lg">
                 <div className="sm-y:0 container py-3">
                     <div className="flex items-center justify-between">
@@ -162,6 +185,11 @@ const Navbar = (props) => {
                                                     </a>
                                                 </li>
                                                 <li>
+                                                    <a
+                                                        href="/#logout"
+                                                        onClick={handleLogout}
+                                                        className="inline-block w-full rounded-md p-2 text-red-600 hover:bg-primary/20"
+                                                    >
                                                     <a href="/logout" className="inline-block w-full rounded-md p-2 text-red-600 hover:bg-primary/20">
                                                         Logout
                                                     </a>
@@ -236,6 +264,8 @@ const Navbar = (props) => {
                                                             </li>
                                                             <li>
                                                                 <a
+                                                                    href="/#logout"
+                                                                    onClick={handleLogout}
                                                                     href="/logout"
                                                                     className="inline-block w-full rounded-md p-2 text-red-600 hover:bg-primary/20"
                                                                 >
@@ -264,4 +294,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);
