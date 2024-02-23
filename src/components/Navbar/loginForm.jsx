@@ -69,7 +69,9 @@ const LoginForm = (props) => {
                     </div>
                 ))}
                 <div className="mb-2 flex items-end justify-end">
-                    <button>Forgot password?</button>
+                    <a href="/forgot_password" className="hover:text-primary">
+                        Forgot password?
+                    </a>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 divide-y-2">
@@ -81,7 +83,7 @@ const LoginForm = (props) => {
                         Login
                     </button>
 
-                    <button type="submit" className="w-full" onClick={handleSignup}>
+                    <button type="submit" className="w-full hover:text-primary" onClick={handleSignup}>
                         Register
                     </button>
                 </div>
