@@ -10,6 +10,7 @@ import { cancelOrder, getOrders } from "../../API/order";
 import { fullDate } from "../../components/Common/date";
 import { orderStatus } from "../../components/Constants/text";
 import CancelModal from "./cancelModal";
+import { getProductsCanReview } from "../../API/reviews";
 
 const head = ["No", "Date", "Status", "Total", ""];
 
@@ -64,6 +65,13 @@ const OrdersHistory = (props) => {
             fetchOrderList(auth.user.user_id);
             handleOpen();
         }
+    };
+
+    // check can review
+    const checkCanReview = async (orderId) => {
+        const res = await getProductsCanReview(orderId);
+        const data = res.data;
+        return data.length > 0;
     };
 
     useEffect(() => {
@@ -164,7 +172,7 @@ const OrdersHistory = (props) => {
                                                             </Typography>
                                                         </button>
                                                     )}
-                                                    {item.status === orderStatus.DELIVERED && (
+                                                    {item.status === orderStatus.DELIVERED && checkCanReview(item.order_id) === true && (
                                                         <a href={`/review/${item.order_id}`}>
                                                             <Typography
                                                                 variant="small"

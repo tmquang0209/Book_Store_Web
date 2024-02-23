@@ -85,7 +85,7 @@ const Login = (props) => {
                     <div>
                         <p className="text-center">
                             Don't have an account?{" "}
-                            <a href="/register" className="text-primary hover:cursor-pointer">
+                            <a href="/signup" className="text-primary hover:cursor-pointer">
                                 Register
                             </a>
                         </p>
